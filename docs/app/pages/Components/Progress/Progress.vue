@@ -4,7 +4,10 @@
 <template>
   <page-container centered :title="$t('pages.progress.title')">
     <div class="page-container-section">
-      <p>Lorem ipsum</p>
+      <p>
+        A linear progress indicator should always fill from 0% to 100% and never decrease in value.
+        It should be represented by bars on the edge of a header or sheet that appear and disappear
+      </p>
     </div>
 
     <div class="page-container-section">
