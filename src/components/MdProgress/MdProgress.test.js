@@ -6,7 +6,6 @@ test('should render the progress', async () => {
   const wrapper = await mountTemplate(MdProgress, template)
 
   expect(wrapper.hasClass('md-progress')).toBe(true)
-  expect(wrapper.text()).toBe('Lorem ipsum')
 })
 
 test('should render the theme class', async () => {
