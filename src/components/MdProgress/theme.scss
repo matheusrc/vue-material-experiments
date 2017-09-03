@@ -1,0 +1,40 @@
+.md-progress {
+  &.md-accent {
+    // background-color: #{'ACCENT-COLOR-0.38'};
+    background-color: rgba(#e91e63, .38);
+
+    &:not(.md-indeterminate) .md-progress-track {
+      // background-color: #{'ACCENT-COLOR'};
+      background-color: rgba(#e91e63, 1);
+    }
+
+    .md-progress-track {
+      &:after,
+      &:before {
+        // background-color: #{'ACCENT-COLOR'};
+        background-color: rgba(#e91e63, 1);
+      }
+    }
+  }
+
+  &.md-warn {
+    // background-color: #{'WARN-COLOR-0.38'};
+    background-color: rgba(#ff5722, .38);
+
+    &:not(.md-indeterminate) .md-progress-track {
+      // background-color: #{'WARN-COLOR'};
+      background-color: rgba(#ff5722, 1);
+    }
+
+    .md-progress-track {
+      &:after,
+      &:before {
+        // background-color: #{'WARN-COLOR'};
+        background-color: rgba(#ff5722, 1);
+      }
+    }
+  }
+
+  @include md-theme-component() {
+  }
+}

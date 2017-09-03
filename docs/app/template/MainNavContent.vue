@@ -5,6 +5,7 @@
 
     <router-link to="/components">{{ $t('pages.components.title') }}</router-link>
     <div class="main-nav-level">
+      <router-link to="/components/progress">{{ $t('pages.progress.title') }}</router-link>
       <router-link to="/components/app">{{ $t('pages.app.title') }}</router-link>
       <router-link to="/components/button">{{ $t('pages.button.title') }}</router-link>
       <router-link to="/components/card">{{ $t('pages.card.title') }}</router-link>
@@ -22,6 +23,7 @@
 
       <router-link to="/components/icon">{{ $t('pages.icon.title') }}</router-link>
       <router-link to="/components/list">{{ $t('pages.list.title') }}</router-link>
+      <router-link to="/components/progress">{{ $t('pages.progress.title') }}</router-link>
       <router-link to="/components/speed-dial">{{ $t('pages.speedDial.title') }}</router-link>
       <router-link to="/components/subheader">{{ $t('pages.subheader.title') }}</router-link>
       <router-link to="/components/toolbar">{{ $t('pages.toolbar.title') }}</router-link>

@@ -5,6 +5,11 @@ Vue.use(VueRouter)
 
 export const routes = [
   {
+    path: '/components/progress',
+    name: 'components/progress',
+    component: () => import(/* webpackChunkName: "progress" */ './pages/Components/Progress/Progress.vue')
+  },
+  {
     path: '/components/speed-dial',
     name: 'components/speed-dial',
     component: () => import(/* webpackChunkName: "speed-dial" */ './pages/Components/SpeedDial/SpeedDial.vue')
@@ -68,6 +73,11 @@ export const routes = [
     path: '/components/icon',
     name: 'components/icon',
     component: () => import(/* webpackChunkName: "icon" */ './pages/Components/Icon/Icon.vue')
+  },
+  {
+    path: '/components/progress',
+    name: 'components/progress',
+    component: () => import(/* webpackChunkName: "progress" */ './pages/Components/Progress/Progress.vue')
   },
   {
     path: '/components/input',

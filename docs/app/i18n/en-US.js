@@ -55,6 +55,9 @@ export default {
     list: {
       title: 'List'
     },
+    progress: {
+      title: 'Progress'
+    },
     radio: {
       title: 'Radio'
     },

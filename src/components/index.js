@@ -1,4 +1,5 @@
 import MdApp from './MdApp'
+import MdProgress from './MdProgress'
 import MdSpeedDial from './MdSpeedDial'
 import MdButton from './MdButton'
 import MdCard from './MdCard'
@@ -33,6 +34,7 @@ export {
   MdImage,
   MdLayout,
   MdList,
+  MdProgress,
   MdRadio,
   MdRipple,
   MdSubheader,
