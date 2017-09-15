@@ -1,40 +1,60 @@
 .md-progress {
-  &.md-accent {
-    // background-color: #{'ACCENT-COLOR-0.38'};
-    background-color: rgba(#e91e63, .38);
-
-    &:not(.md-indeterminate) .md-progress-track {
-      // background-color: #{'ACCENT-COLOR'};
-      background-color: rgba(#e91e63, 1);
-    }
-
-    .md-progress-track {
-      &:after,
-      &:before {
-        // background-color: #{'ACCENT-COLOR'};
-        background-color: rgba(#e91e63, 1);
-      }
-    }
-  }
-
-  &.md-warn {
-    // background-color: #{'WARN-COLOR-0.38'};
-    background-color: rgba(#ff5722, .38);
-
-    &:not(.md-indeterminate) .md-progress-track {
-      // background-color: #{'WARN-COLOR'};
-      background-color: rgba(#ff5722, 1);
-    }
-
-    .md-progress-track {
-      &:after,
-      &:before {
-        // background-color: #{'WARN-COLOR'};
-        background-color: rgba(#ff5722, 1);
-      }
-    }
-  }
-
   @include md-theme-component() {
+    md-progress-linear.md-THEME_NAME-theme {
+      .md-container {
+        background-color: '{{primary-100}}';
+      }
+
+      .md-bar {
+        background-color: '{{primary-color}}';
+      }
+
+      &.md-warn {
+        .md-container {
+          background-color: '{{warn-100}}';
+        }
+
+        .md-bar {
+          background-color: '{{warn-color}}';
+        }
+      }
+
+      &.md-accent {
+        .md-container {
+          background-color: '{{accent-100}}';
+        }
+
+        .md-bar {
+          background-color: '{{accent-color}}';
+        }
+      }
+
+      &[md-mode=buffer] {
+        &.md-primary {
+        .md-bar1 {
+            background-color: '{{primary-100}}';
+          }
+          .md-dashed:before {
+            background: radial-gradient('{{primary-100}}' 0%, '{{primary-100}}' 16%, transparent 42%);
+          }
+      }
+        &.md-warn {
+          .md-bar1 {
+            background-color: '{{warn-100}}';
+          }
+          .md-dashed:before {
+            background: radial-gradient('{{warn-100}}' 0%, '{{warn-100}}' 16%, transparent 42%);
+          }
+        }
+        &.md-accent {
+          .md-bar1 {
+            background-color: '{{accent-100}}';
+          }
+          .md-dashed:before {
+            background: radial-gradient('{{accent-100}}' 0%, '{{accent-100}}' 16%, transparent 42%);
+          }
+        }
+      }
+    }
   }
 }
