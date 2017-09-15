@@ -24,50 +24,48 @@
 <style lang="scss" src="./mdSpinner.scss"></style>
 
 <script>
-  // import theme from '../../core/components/mdTheme/mixin'
-  import MdComponent from 'core/MdComponent'
+import MdComponent from 'core/MdComponent'
 
-  export default new MdComponent({
-    name: 'MdCircular',
-    mixins: [theme],
-    props: {
-      mdSize: {
-        type: Number,
-        default: 50
-      },
-      mdStroke: {
-        type: Number,
-        default: 3.5
-      },
-      mdIndeterminate: Boolean,
-      mdProgress: {
-        type: Number,
-        default: 0
+export default new MdComponent({
+  name: 'MdCircular',
+  props: {
+    mdSize: {
+      type: Number,
+      default: 50
+    },
+    mdStroke: {
+      type: Number,
+      default: 3.5
+    },
+    mdIndeterminate: Boolean,
+    mdProgress: {
+      type: Number,
+      default: 0
+    }
+  },
+  computed: {
+    classes () {
+      return {
+        'md-indeterminate': this.mdIndeterminate
       }
     },
-    computed: {
-      classes() {
-        return {
-          'md-indeterminate': this.mdIndeterminate
-        }
-      },
-      styles() {
-        const newSize = `${this.mdSize}px`
-        return {
-          width: newSize,
-          height: newSize
-        }
-      },
-      dashProgress() {
-        let progress = this.mdProgress * 125 / 100
-        if (this.mdIndeterminate) {
-          return false
-        }
-        if (progress >= 125) {
-          progress = 130
-        }
-        return `${progress}, 200`
+    styles () {
+      const newSize = `${this.mdSize}px`
+      return {
+        width: newSize,
+        height: newSize
       }
+    },
+    dashProgress () {
+      let progress = this.mdProgress * 125 / 100
+      if (this.mdIndeterminate) {
+        return false
+      }
+      if (progress >= 125) {
+        progress = 130
+      }
+      return `${progress}, 200`
     }
-  })
+  }
+})
 </script>

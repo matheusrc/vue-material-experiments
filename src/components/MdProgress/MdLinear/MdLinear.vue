@@ -25,7 +25,7 @@ export default new MdComponent({
     mdBufferProgress: {
       type: Number,
       default: 0
-    },
+    }
   },
   computed: {
     classes () {
