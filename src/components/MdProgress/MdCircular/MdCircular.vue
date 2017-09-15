@@ -1,16 +1,16 @@
 <template>
   <transition
-    name="md-spinner"
+    name="md-circular"
     appear>
     <div
-      class="md-spinner"
+      class="md-circular"
       :class="[themeClass, classes]"
       :style="styles">
       <svg
-        class="md-spinner-draw"
+        class="md-circular-draw"
         viewBox="25 25 50 50">
         <circle
-          class="md-spinner-path"
+          class="md-circular-path"
           cx="50"
           cy="50"
           r="20"
