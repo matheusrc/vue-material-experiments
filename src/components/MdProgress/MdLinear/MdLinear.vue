@@ -1,6 +1,6 @@
 <template>
   <transition name="md-progress" appear>
-    <div class="md-progress" :class="classes">
+    <div class="md-progress md-buffer" :class="classes">
       <div class="md-dashed" :style="styles"></div>
       <div class="md-progress-track" :style="styles"></div>
     </div>
@@ -11,7 +11,7 @@
 import MdComponent from 'core/MdComponent'
 
 export default new MdComponent({
-  name: 'MdProgress',
+  name: 'MdLinear',
   props: {
     mdBuffer: Boolean,
     mdDeterminate: Boolean,
@@ -46,119 +46,26 @@ export default new MdComponent({
 
 <style lang="scss">
   @import "~components/MdAnimation/variables";
-  $progress-linear-bar-height: 5px !default;
+  /* $progress-linear-bar-height: 5px !default; */
 
-  md-progress-linear {
-    display: block;
-    position: relative;
-    width: 100%;
-    height: $progress-linear-bar-height;
-
-    padding-top: 0 !important;
-    margin-bottom: 0 !important;
-
-    &._md-progress-linear-disabled {
-      visibility: hidden;
+  /* &.md-mode-query {
+    .md-bar1 {
+      display: none;
     }
-
-    .md-container {
-      display:block;
-      position: relative;
-      overflow: hidden;
-
-      width:100%;
-      height: $progress-linear-bar-height;
-
-      transform: translate(0, 0) scale(1, 1);
-
-      .md-bar {
-        position: absolute;
-
-        left: 0;
-        top: 0;
-        bottom: 0;
-
-        width: 100%;
-        height: $progress-linear-bar-height;
-      }
-
-      .md-dashed:before {
-        content: "";
-        display: none;
-        position: absolute;
-
-        margin-top: 0;
-        height: $progress-linear-bar-height;
-        width: 100%;
-
-        background-color: transparent;
-        background-size: 10px 10px !important;
-        background-position: 0px -23px;
-      }
-
-      .md-bar1, .md-bar2 {
-
-        // Just set the transition information here.
-        // Note: the actual transform values are calculated in JS
-
-        transition: transform 0.2s linear;
-      }
-
-      // ************************************************************
-      // Animations for modes: Determinate, InDeterminate, and Query
-      // ************************************************************
-
-      &.md-mode-query {
-          .md-bar1 {
-            display: none;
-          }
-          .md-bar2 {
-            transition: all 0.2s linear;
-            animation: query .8s infinite cubic-bezier(0.390, 0.575, 0.565, 1.000);
-          }
-        }
-
-      &.md-mode-determinate {
-        .md-bar1 {
-          display: none;
-        }
-      }
-
-      &.md-mode-indeterminate {
-        .md-bar1 {
-          animation: md-progress-linear-indeterminate-scale-1 4s infinite,
-                    md-progress-linear-indeterminate-1 4s infinite;
-        }
-        .md-bar2 {
-          animation: md-progress-linear-indeterminate-scale-2 4s infinite,
-                    md-progress-linear-indeterminate-2 4s infinite;
-        }
-      }
-
-      &.ng-hide
-      ._md-progress-linear-disabled & {
-        animation: none;
-
-        .md-bar1 {
-          animation-name: none;
-        }
-        .md-bar2 {
-          animation-name: none;
-        }
-      }
-    }
-
-    // Special animations for the `buffer` mode
-
-    .md-container.md-mode-buffer {
-      background-color: transparent !important;
-
+    .md-bar2 {
       transition: all 0.2s linear;
+      animation: query .8s infinite cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    }
+  } */
 
-      .md-dashed:before {
-        display: block;
-        animation: buffer 3s infinite linear;
-      }
+  .md-buffer {
+    background-color: transparent !important;
+
+    transition: all 0.2s linear;
+
+    .md-dashed:before {
+      display: block;
+      animation: buffer 3s infinite linear;
     }
   }
 

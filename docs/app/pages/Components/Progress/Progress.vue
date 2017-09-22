@@ -1,5 +1,7 @@
 <example src="./examples/Determinate.vue" />
 <example src="./examples/Indeterminate.vue" />
+<example src="./examples/Buffer.vue" />
+<example src="./examples/Circular.vue" />
 
 <template>
   <page-container centered :title="$t('pages.progress.title')">
@@ -19,7 +21,19 @@
     <div class="page-container-section">
       <!-- <h2>Indeterminate</h2> -->
 
+      <code-example title="Buffer" :component="examples['buffer']" />
+    </div>
+
+    <div class="page-container-section">
+      <!-- <h2>Indeterminate</h2> -->
+
       <code-example title="Indeterminate" :component="examples['indeterminate']" />
+    </div>
+
+    <div class="page-container-section">
+      <!-- <h2>Indeterminate</h2> -->
+
+      <code-example title="Circular" :component="examples['circular']" />
     </div>
 
     <div class="page-container-section">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-progress md-indeterminate></md-progress>
+    <md-progress md-buffer :mdProgress="progress" :mdBufferProgress="buffer"></md-progress>
     <!-- <br>
     <md-progress class="md-accent" md-indeterminate></md-progress>
     <br>
@@ -10,7 +10,11 @@
 
 <script>
 export default {
-  name: 'Indeterminate'
+  name: 'Buffer',
+  data: () => ({
+    progress: 40,
+    buffer: 60
+  })
 }
 
 </script>

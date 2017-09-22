@@ -1,18 +1,15 @@
 <template>
   <div>
-    <md-progress :md-progress="progress"></md-progress>
-    <!-- <br>
-    <md-progress class="md-accent" :md-progress="progress"></md-progress>
+    <md-circular mdIndeterminate></md-circular>
     <br>
-    <md-progress class="md-warn" :md-progress="progress"></md-progress> -->
+    <md-circular :mdProgress="progress"></md-circular>
     <br>
-    <md-button @click="restartProgress">Restart</md-button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Determinate',
+  name: 'Circular',
   data: () => ({
     progress: 0,
     progressInterval: null,
@@ -25,7 +22,7 @@ export default {
         if (this.progress > 100) {
           window.clearInterval(this.progressInterval)
         }
-      }, 100)
+      }, 150)
     },
     restartProgress () {
       this.progress = 0
