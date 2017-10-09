@@ -5,6 +5,11 @@ Vue.use(VueRouter)
 
 export const routes = [
   {
+    path: '/components/table',
+    name: 'components/table',
+    component: () => import(/* webpackChunkName: "table" */ './pages/Components/Table/Table.vue')
+  },
+  {
     path: '/components/steppers/:test?',
     name: 'components/steppers',
     component: () => import(/* webpackChunkName: "steppers" */ './pages/Components/Steppers/Steppers.vue')

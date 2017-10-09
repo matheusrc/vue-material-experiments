@@ -1,0 +1,17 @@
+.md-table {
+  @include md-theme-component() {
+    .md-table-row {
+      &:not(:first-child) {
+        @include md-theme-property(border-top-color, divider, background);
+      }
+
+      &:hover .md-table-cell {
+        @include md-theme-property(background-color, highlight, background);
+      }
+    }
+
+    .md-table-head {
+      @include md-theme-property(color, text-accent, background);
+    }
+  }
+}

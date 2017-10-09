@@ -76,6 +76,9 @@ export default {
     menu: {
       title: 'Menu'
     },
+    table: {
+      title: 'Table'
+    },
     steppers: {
       title: 'Steppers'
     },
