@@ -15,16 +15,41 @@
     components: {
       MdContent
     },
+    props: {
+      mdSort: String,
+      mdSortOrder: String
+    },
     data: () => ({
-      MdTable: {}
+      MdTable: {
+        sort: null,
+        sortOrder: null
+      }
     }),
     provide () {
-      return {
-        MdTable: this.MdTable
+      const MdTable = this.MdTable
+
+      MdTable.emitEvent = this.emitEvent
+
+      return { MdTable }
+    },
+    watch: {
+      mdSort: {
+        immediate: true,
+        handler () {
+          this.MdTable.sort = this.mdSort
+        }
+      },
+      mdSortOrder: {
+        immediate: true,
+        handler () {
+          this.MdTable.sortOrder = this.mdSortOrder
+        }
       }
     },
-    computed: {
-
+    methods: {
+      emitEvent (eventName, value) {
+        this.$emit(eventName, value)
+      }
     }
   })
 </script>

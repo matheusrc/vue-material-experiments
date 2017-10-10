@@ -1,17 +1,66 @@
 <template>
-  <th class="md-table-head">
-    <md-ripple class="md-table-head-container">
+  <th class="md-table-head" :class="headClasses" @click="changeSort">
+    <md-ripple class="md-table-head-container" :md-disabled="!mdSortBy">
       <div class="md-table-head-label">
+        <md-upward-icon class="md-table-sortable-icon" v-if="mdSortBy">arrow_upward</md-upward-icon>
         <slot />
+        <md-tooltip md-active.sync="" v-if="mdTooltip">{{ mdTooltip }}</md-tooltip>
       </div>
     </md-ripple>
   </th>
 </template>
 
 <script>
+  import MdUpwardIcon from 'core/icons/MdUpwardIcon'
+
   export default {
     name: 'MdTableHead',
-    inject: ['MdTable']
+    components: {
+      MdUpwardIcon
+    },
+    props: {
+      mdNumeric: Boolean,
+      mdSortBy: String,
+      mdTooltip: String
+    },
+    inject: ['MdTable'],
+    computed: {
+      isSorted () {
+        if (this.MdTable.sort) {
+          return this.MdTable.sort === this.mdSortBy
+        }
+      },
+      isDesc () {
+        return this.isSorted && this.MdTable.sortOrder === 'desc'
+      },
+      isAsc () {
+        return this.isSorted && this.MdTable.sortOrder === 'asc'
+      },
+      headClasses () {
+        return {
+          'md-numeric': this.mdNumeric,
+          'md-sortable': this.mdSortBy,
+          'md-sorted': this.isSorted,
+          'md-sorted-desc': this.isDesc
+        }
+      }
+    },
+    methods: {
+      changeSort () {
+        if (this.mdSortBy) {
+          if (this.isAsc) {
+            this.MdTable.sortOrder = 'desc'
+          } else {
+            this.MdTable.sortOrder = 'asc'
+          }
+
+          this.MdTable.sort = this.mdSortBy
+          this.MdTable.emitEvent('md-sorted', this.MdTable.sort)
+          this.MdTable.emitEvent('update:mdSort', this.MdTable.sort)
+          this.MdTable.emitEvent('update:mdSortOrder', this.MdTable.sortOrder)
+        }
+      }
+    }
   }
 </script>
 
@@ -32,6 +81,50 @@
     &.md-numeric {
       text-align: right;
     }
+
+    .md-icon {
+      $size: 16px;
+
+      width: $size;
+      height: $size;
+      font-size: $size;
+
+      &:not(.md-sortable-icon) {
+        margin: 0 4px;
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .md-sortable {
+    cursor: pointer;
+
+    &:first-of-type {
+      .md-table-sortable-icon {
+        right: 8px;
+        left: auto;
+      }
+    }
+
+    &:hover,
+    &.md-sorted {
+      .md-table-sortable-icon {
+        opacity: 1;
+      }
+    }
+
+    &.md-sorted-desc {
+      .md-table-sortable-icon {
+        transform: translateY(-50%) rotate(180deg);
+      }
+    }
   }
 
   .md-table-head-container {
@@ -49,5 +142,15 @@
     line-height: 28px;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .md-table-sortable-icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transition: .35s $md-transition-default-timing;
+    transform: translateY(-50%);
+    opacity: 0;
+    color: rgba(#000, .38);
   }
 </style>
