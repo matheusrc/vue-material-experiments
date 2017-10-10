@@ -80,6 +80,7 @@
       const MdTable = this.MdTable
 
       MdTable.emitEvent = this.emitEvent
+      MdTable.getTableEl = this.getTableEl
 
       return { MdTable }
     },
@@ -175,7 +176,7 @@
       width: 100%;
       border-spacing: 0;
       border-collapse: collapse;
-      table-layout: fixed;
+      // table-layout: fixed;
       overflow: hidden;
     }
   }
