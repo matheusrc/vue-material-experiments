@@ -73,7 +73,8 @@
         fixedHeader: null,
         sort: null,
         sortOrder: null,
-        contentPadding: null
+        contentPadding: null,
+        items: {}
       }
     }),
     provide () {
