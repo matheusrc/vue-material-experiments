@@ -1,27 +1,8 @@
-<template>
-  <md-content class="md-table" :class="[{ 'md-has-card': mdCard }, $mdActiveTheme]">
-    <md-table-card v-if="mdCard">
-      <slot name="md-table-toolbar" />
-      <slot name="md-table-header" />
-
-      <md-content class="md-table-container md-scrollbar" :style="containerStyles">
-        <table>
-          <slot />
-        </table>
-      </md-content>
-    </md-table-card>
-
-    <table v-else>
-      <slot />
-    </table>
-  </md-content>
-</template>
-
 <script>
-  import raf from 'raf'
   import MdComponent from 'core/MdComponent'
-  import MdObserveElement from 'core/utils/MdObserveElement'
   import MdContent from 'components/MdContent/MdContent'
+  import MdTableContainer from './MdTableContainer'
+  import MdTableCard from './MdTableCard'
 
   const prepareSlots = ($slots) => {
     const slotNames = ['md-table-toolbar', 'md-table-header']
@@ -53,15 +34,14 @@
   export default new MdComponent({
     name: 'MdTable',
     components: {
-      MdContent
+      MdContent,
+      MdTableContainer,
+      MdTableCard
     },
     props: {
       mdCard: Boolean,
       mdSort: String,
-      mdHeight: {
-        type: String,
-        default: '500'
-      },
+      mdHeight: String,
       mdSortOrder: {
         type: String,
         default: 'asc'
@@ -85,16 +65,6 @@
 
       return { MdTable }
     },
-    computed: {
-      containerStyles () {
-        if (this.MdTable.fixedHeader) {
-          return {
-            overflow: 'auto',
-            height: this.mdHeight + 'px'
-          }
-        }
-      }
-    },
     watch: {
       mdSort: {
         immediate: true,
@@ -115,44 +85,40 @@
       },
       getTableEl () {
         return this.$el.querySelector('.md-table-container table')
-      },
-      calculateTableWidth () {
-        const table = this.getTableEl()
-
-        if (table) {
-          this.MdTable.contentPadding = this.$el.offsetWidth - table.offsetWidth
-        }
       }
     },
-    beforeCreate () {
+    render (createElement) {
       prepareSlots(this.$slots)
-    },
-    beforeUpdate () {
-      raf(this.calculateTableWidth)
-    },
-    async updated () {
-      await this.$nextTick()
 
-      raf(this.calculateTableWidth)
-    },
-    async mounted () {
-      await this.$nextTick()
-
-      raf(this.calculateTableWidth)
-
-      if (this.MdTable.fixedHeader) {
-        const table = this.getTableEl()
-
-        if (table) {
-          this.resizeObserver = MdObserveElement(table, {
-            childList: true,
-            characterData: true,
-            subtree: true
-          }, () => {
-            raf(this.calculateTableWidth)
-          })
+      const container = createElement(MdTableContainer, {
+        props: {
+          mdHeight: this.mdHeight
         }
+      }, this.$slots.default)
+
+      const createTable = slot => {
+        return createElement(MdContent, {
+          staticClass: 'md-table',
+          class: [
+            {
+              'md-has-card': this.mdCard
+            },
+            this.$mdActiveTheme
+          ]
+        }, [slot])
       }
+
+      if (this.mdCard) {
+        const card = createElement(MdTableCard, [
+          ...this.$slots['md-table-toolbar'],
+          ...this.$slots['md-table-header'],
+          container
+        ])
+
+        return createTable(card)
+      }
+
+      return createTable(container)
     }
   })
 </script>
@@ -169,15 +135,10 @@
       overflow: visible;
     }
 
-    .md-table-container {
-      flex: 1;
-    }
-
     table {
       width: 100%;
       border-spacing: 0;
       border-collapse: collapse;
-      // table-layout: fixed;
       overflow: hidden;
     }
   }

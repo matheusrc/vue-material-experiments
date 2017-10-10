@@ -44,6 +44,9 @@
     created () {
       this.MdTable.fixedHeader = true
     },
+    updated () {
+      raf(this.calculateHeadSize)
+    },
     mounted () {
       const table = this.MdTable.getTableEl()
 

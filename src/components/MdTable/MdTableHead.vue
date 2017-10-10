@@ -1,6 +1,6 @@
 <template>
   <th class="md-table-head" :class="headClasses" @click="changeSort">
-    <md-ripple class="md-table-head-container" :disabled="!hasSort">
+    <md-ripple class="md-table-head-container" :md-disabled="!hasSort">
       <div class="md-table-head-label">
         <md-upward-icon class="md-table-sortable-icon" v-if="hasSort">arrow_upward</md-upward-icon>
         <slot />

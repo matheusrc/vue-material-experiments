@@ -14,16 +14,16 @@
       </md-table-toolbar>
 
       <md-table-header>
-        <md-table-head>ID</md-table-head>
-        <md-table-head md-sort-by="name" md-numeric>Name</md-table-head>
+        <md-table-head md-numeric>ID</md-table-head>
+        <md-table-head md-sort-by="name">Name</md-table-head>
         <md-table-head>Email</md-table-head>
         <md-table-head md-sort-by="gender">Gender</md-table-head>
         <md-table-head md-sort-by="title">Job title</md-table-head>
       </md-table-header>
 
-      <md-table-row v-for="{ id, name, email, gender, title } in people" :key="id" md-selection>
-        <md-table-cell>{{ id }}</md-table-cell>
-        <md-table-cell md-numeric>{{ name }}</md-table-cell>
+      <md-table-row v-for="{ id, name, email, gender, title } in people" :key="id">
+        <md-table-cell md-numeric>{{ id }}</md-table-cell>
+        <md-table-cell>{{ name }}</md-table-cell>
         <md-table-cell>{{ email }}</md-table-cell>
         <md-table-cell>{{ gender }}</md-table-cell>
         <md-table-cell>{{ title }}</md-table-cell>
