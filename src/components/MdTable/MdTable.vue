@@ -4,33 +4,6 @@
   import MdTableContainer from './MdTableContainer'
   import MdTableCard from './MdTableCard'
 
-  const prepareSlots = ($slots) => {
-    const slotNames = ['md-table-toolbar', 'md-table-header']
-    let leftSlots = Array.from($slots.default)
-
-    slotNames.forEach(name => {
-      $slots[name] = []
-    })
-
-    leftSlots.forEach((slot, index) => {
-      if (slot && slot.tag) {
-        const tag = slot.componentOptions && slot.componentOptions.tag
-
-        if (tag && slotNames.includes(slot.componentOptions.tag)) {
-          const slotIndex = slotNames.indexOf(tag)
-          const slotName = slotNames[slotIndex]
-
-          slot.data.slot = slotName
-
-          $slots[slotName].push(slot)
-          leftSlots.splice(index, 1)
-        }
-      }
-    })
-
-    $slots.default = leftSlots
-  }
-
   export default new MdComponent({
     name: 'MdTable',
     components: {
@@ -80,6 +53,34 @@
       }
     },
     methods: {
+      prepareSlots () {
+        const slotNames = ['md-table-toolbar', 'md-table-header']
+        let leftSlots = Array.from(this.$slots.default)
+
+        slotNames.forEach(name => {
+          if (!this.$slots[name]) {
+            this.$slots[name] = []
+          }
+        })
+
+        leftSlots.forEach((slot, index) => {
+          if (slot && slot.tag) {
+            const tag = slot.componentOptions && slot.componentOptions.tag
+
+            if (tag && slotNames.includes(slot.componentOptions.tag)) {
+              const slotIndex = slotNames.indexOf(tag)
+              const slotName = slotNames[slotIndex]
+
+              slot.data.slot = slotName
+
+              this.$slots[slotName].push(slot)
+              leftSlots.splice(index, 1)
+            }
+          }
+        })
+
+        this.$slots.default = leftSlots
+      },
       emitEvent (eventName, value) {
         this.$emit(eventName, value)
       },
@@ -88,7 +89,7 @@
       }
     },
     render (createElement) {
-      prepareSlots(this.$slots)
+      this.prepareSlots(this.$slots)
 
       const container = createElement(MdTableContainer, {
         props: {
