@@ -9,16 +9,20 @@
 <script>
   import raf from 'raf'
   import MdObserveElement from 'core/utils/MdObserveElement'
+  import MdContent from 'components/MdContent/MdContent'
 
   export default {
     name: 'MdTableContainer',
-    inject: ['MdTable'],
+    components: {
+      MdContent
+    },
     props: {
       mdHeight: {
         type: String,
         default: '500'
       }
     },
+    inject: ['MdTable'],
     computed: {
       containerStyles () {
         if (this.MdTable.fixedHeader) {
