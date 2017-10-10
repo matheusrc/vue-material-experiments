@@ -133,6 +133,9 @@
   .md-table-head-container {
     height: 56px;
     padding: 14px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .md-table-head-label {

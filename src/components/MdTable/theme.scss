@@ -1,5 +1,9 @@
 .md-table {
   @include md-theme-component() {
+    .md-table-header {
+      @include md-theme-property(border-bottom-color, divider, background);
+    }
+
     .md-table-row {
       &:not(:first-child) {
         @include md-theme-property(border-top-color, divider, background);
