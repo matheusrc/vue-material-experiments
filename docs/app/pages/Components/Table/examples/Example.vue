@@ -1,6 +1,10 @@
 <template>
   <div>
-    <md-table md-sort="first">
+    <md-table md-sort="first" md-card>
+      <md-table-toolbar>
+        <h1 class="md-title">Nutrition</h1>
+      </md-table-toolbar>
+
       <md-table-row>
         <md-table-head md-sort-by="first">First title</md-table-head>
         <md-table-head md-sort-by="second">Second title</md-table-head>

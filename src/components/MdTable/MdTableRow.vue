@@ -14,7 +14,7 @@
 <style lang="scss">
   @import "~components/MdAnimation/variables";
 
-  .md-table-row:not(:first-child) {
+  .md-table-row:not(:first-of-type) {
     border-top: 1px solid;
   }
 </style>
