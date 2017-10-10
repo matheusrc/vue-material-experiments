@@ -1,8 +1,8 @@
 <template>
   <th class="md-table-head" :class="headClasses" @click="changeSort">
-    <md-ripple class="md-table-head-container" :md-disabled="!mdSortBy">
+    <md-ripple class="md-table-head-container" :disabled="!hasSort">
       <div class="md-table-head-label">
-        <md-upward-icon class="md-table-sortable-icon" v-if="mdSortBy">arrow_upward</md-upward-icon>
+        <md-upward-icon class="md-table-sortable-icon" v-if="hasSort">arrow_upward</md-upward-icon>
         <slot />
         <md-tooltip md-active.sync="" v-if="mdTooltip">{{ mdTooltip }}</md-tooltip>
       </div>
@@ -25,6 +25,9 @@
     },
     inject: ['MdTable'],
     computed: {
+      hasSort () {
+        return this.MdTable.sort && this.mdSortBy
+      },
       isSorted () {
         if (this.MdTable.sort) {
           return this.MdTable.sort === this.mdSortBy
@@ -39,7 +42,7 @@
       headClasses () {
         return {
           'md-numeric': this.mdNumeric,
-          'md-sortable': this.mdSortBy,
+          'md-sortable': this.hasSort,
           'md-sorted': this.isSorted,
           'md-sorted-desc': this.isDesc
         }
@@ -47,7 +50,7 @@
     },
     methods: {
       changeSort () {
-        if (this.mdSortBy) {
+        if (this.hasSort) {
           if (this.isAsc) {
             this.MdTable.sortOrder = 'desc'
           } else {
@@ -148,7 +151,7 @@
     position: absolute;
     top: 50%;
     left: 0;
-    transition: .35s $md-transition-default-timing;
+    transition: $md-transition-default;
     transform: translateY(-50%);
     opacity: 0;
     color: rgba(#000, .38);

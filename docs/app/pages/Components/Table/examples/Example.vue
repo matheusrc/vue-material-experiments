@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-table md-active-sort="first">
+    <md-table md-sort="first">
       <md-table-row>
         <md-table-head md-sort-by="first">First title</md-table-head>
         <md-table-head md-sort-by="second">Second title</md-table-head>

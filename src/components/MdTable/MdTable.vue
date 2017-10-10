@@ -17,7 +17,10 @@
     },
     props: {
       mdSort: String,
-      mdSortOrder: String
+      mdSortOrder: {
+        type: String,
+        default: 'asc'
+      }
     },
     data: () => ({
       MdTable: {
