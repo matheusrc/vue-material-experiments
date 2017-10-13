@@ -24,11 +24,11 @@
 
       <router-link to="/components/form">{{ $t('pages.form.title') }}</router-link>
       <div class="main-nav-level">
-        <router-link to="/components/input">{{ $t('pages.input.title') }}</router-link>
         <router-link to="/components/checkbox">{{ $t('pages.checkbox.title') }}</router-link>
+        <router-link to="/components/file">{{ $t('pages.file.title') }}</router-link>
+        <router-link to="/components/input">{{ $t('pages.input.title') }}</router-link>
         <router-link to="/components/radio">{{ $t('pages.radio.title') }}</router-link>
         <router-link to="/components/switch">{{ $t('pages.switch.title') }}</router-link>
-        <router-link to="/components/file">{{ $t('pages.file.title') }}</router-link>
       </div>
 
       <router-link to="/components/icon">{{ $t('pages.icon.title') }}</router-link>
@@ -54,6 +54,34 @@
   </div>
 </template>
 
+<script>
+  export default {
+    name: 'MainNavContent',
+    watch: {
+      $router () {
+        this.scrollActiveItemIntoView()
+      }
+    },
+    methods: {
+      async scrollActiveItemIntoView () {
+        await this.$nextTick()
+
+        const activeEl = this.$el.querySelector('.router-link-exact-active')
+
+        if (activeEl) {
+          activeEl.scrollIntoView({
+            behavior: 'smooth'
+          })
+        }
+      }
+    },
+    async mounted () {
+      await this.$nextTick()
+      window.setTimeout(this.scrollActiveItemIntoView, 700)
+    }
+  }
+</script>
+
 <style lang="scss" scoped>
   @import "~vue-material/theme/factory";
 
@@ -76,9 +104,3 @@
     margin-left: 16px;
   }
 </style>
-
-<script>
-export default {
-  name: 'MainNavContent'
-}
-</script>

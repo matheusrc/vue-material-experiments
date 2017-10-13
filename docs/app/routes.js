@@ -117,7 +117,7 @@ export const routes = [
   {
     path: '/components/form',
     name: 'form',
-    redirect: '/components/input'
+    component: () => import(/* webpackChunkName: "form" */ './pages/Components/Form/Form.vue')
   },
   {
     path: '/components/pickers',

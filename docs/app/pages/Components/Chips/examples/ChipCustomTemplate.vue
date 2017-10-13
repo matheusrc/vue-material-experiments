@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-chips v-model="projects" :md-limit="5" md-placeholder="Add project...">
-      <template slot="md-chip" scope="{ chip }">
+      <template slot="md-chip" slot-scope="{ chip }">
         {{ chip }} <small v-if="chip === currentProject">(Marcos Moura)</small>
       </template>
 
@@ -11,17 +11,17 @@
 </template>
 
 <script>
-export default {
-  name: 'CustomTemplate',
-  data: () => ({
-    currentProject: 'Vue Material',
-    projects: [
-      'Vue Material',
-      'Element UI',
-      'Quasar'
-    ]
-  })
-}
+  export default {
+    name: 'ChipCustomTemplate',
+    data: () => ({
+      currentProject: 'Vue Material',
+      projects: [
+        'Vue Material',
+        'Element UI',
+        'Quasar'
+      ]
+    })
+  }
 </script>
 
 <style lang="scss" scoped>
