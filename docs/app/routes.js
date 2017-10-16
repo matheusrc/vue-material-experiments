@@ -5,9 +5,9 @@ Vue.use(VueRouter)
 
 export const routes = [
   {
-    path: '/components/test',
-    name: 'components/test',
-    component: () => import(/* webpackChunkName: "test" */ './pages/Components/Test/Test.vue')
+    path: '/components/table',
+    name: 'components/table',
+    component: () => import(/* webpackChunkName: "table" */ './pages/Components/Table/Table.vue')
   },
   {
     path: '/components/datepicker',

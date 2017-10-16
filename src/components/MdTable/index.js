@@ -1,9 +1,9 @@
 import material from 'vue-material/material'
-import MdTest from './MdTest'
+import MdTable from './MdTable'
 import MdTableCell from './MdTableCell'
 
 export default Vue => {
   material(Vue)
-  Vue.component(MdTest.name, MdTest)
+  Vue.component(MdTable.name, MdTable)
   Vue.component(MdTableCell.name, MdTableCell)
 }

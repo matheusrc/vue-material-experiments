@@ -80,6 +80,9 @@ export default {
     file: {
       title: 'File'
     },
+    table: {
+      title: 'Table'
+    },
     menu: {
       title: 'Menu'
     },

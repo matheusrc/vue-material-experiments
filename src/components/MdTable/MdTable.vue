@@ -1,5 +1,5 @@
 <template>
-  <div class="md-test">
+  <div class="md-table">
     <table>
       <thead>
         <tr>
@@ -18,7 +18,7 @@
 
 <script>
   export default {
-    name: 'MdTest',
+    name: 'MdTable',
     props: {
       value: [Array, Object]
     },

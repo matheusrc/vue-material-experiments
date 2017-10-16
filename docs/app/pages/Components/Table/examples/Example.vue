@@ -1,12 +1,12 @@
 <template>
   <div>
-    <md-test v-model="people">
+    <md-table v-model="people">
       <template slot="md-table-row" slot-scope="{ row }">
         <md-table-cell md-label="Title 1">{{ row.name }}</md-table-cell>
         <md-table-cell md-label="Title 2">{{ row.email }}</md-table-cell>
         <md-table-cell md-label="Title 3">{{ row.gender }}</md-table-cell>
       </template>
-    </md-test>
+    </md-table>
   </div>
 </template>
 
@@ -56,7 +56,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .md-test {
+  .md-table {
 
   }
 </style>
