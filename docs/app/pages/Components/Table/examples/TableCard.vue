@@ -1,20 +1,32 @@
 <template>
   <div>
-    <md-table>
+    <md-table md-sort="name" md-card>
+      <md-table-toolbar>
+        <h1 class="md-title">Nutrition</h1>
+
+        <md-button class="md-icon-button">
+          <md-icon>filter_list</md-icon>
+        </md-button>
+
+        <md-button class="md-icon-button">
+          <md-icon>search</md-icon>
+        </md-button>
+      </md-table-toolbar>
+
       <md-table-row>
         <md-table-head md-numeric>ID</md-table-head>
-        <md-table-head>Name</md-table-head>
+        <md-table-head md-sort-by="name">Name</md-table-head>
         <md-table-head>Email</md-table-head>
-        <md-table-head>Gender</md-table-head>
-        <md-table-head>Job title</md-table-head>
+        <md-table-head md-sort-by="gender">Gender</md-table-head>
+        <md-table-head md-sort-by="title">Job title</md-table-head>
       </md-table-row>
 
-      <md-table-row v-for="item in people" :key="item.id" :md-item="item" md-selectable md-auto-select>
-        <md-table-cell md-numeric>{{ item.id }}</md-table-cell>
-        <md-table-cell>{{ item.name }}</md-table-cell>
-        <md-table-cell>{{ item.email }}</md-table-cell>
-        <md-table-cell>{{ item.gender }}</md-table-cell>
-        <md-table-cell>{{ item.title }}</md-table-cell>
+      <md-table-row v-for="{ id, name, email, gender, title } in people" :key="id">
+        <md-table-cell md-numeric>{{ id }}</md-table-cell>
+        <md-table-cell>{{ name }}</md-table-cell>
+        <md-table-cell>{{ email }}</md-table-cell>
+        <md-table-cell>{{ gender }}</md-table-cell>
+        <md-table-cell>{{ title }}</md-table-cell>
       </md-table-row>
     </md-table>
   </div>

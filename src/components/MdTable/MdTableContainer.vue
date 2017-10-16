@@ -74,5 +74,6 @@
 
   .md-table-container {
     flex: 1;
+    background: none !important;
   }
 </style>

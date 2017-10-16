@@ -9,12 +9,12 @@
         <md-table-head>Job title</md-table-head>
       </md-table-row>
 
-      <md-table-row v-for="item in people" :key="item.id" :md-item="item" md-selectable md-auto-select>
-        <md-table-cell md-numeric>{{ item.id }}</md-table-cell>
-        <md-table-cell>{{ item.name }}</md-table-cell>
-        <md-table-cell>{{ item.email }}</md-table-cell>
-        <md-table-cell>{{ item.gender }}</md-table-cell>
-        <md-table-cell>{{ item.title }}</md-table-cell>
+      <md-table-row v-for="{ id, name, email, gender, title } in people" :key="id">
+        <md-table-cell md-numeric>{{ id }}</md-table-cell>
+        <md-table-cell>{{ name }}</md-table-cell>
+        <md-table-cell>{{ email }}</md-table-cell>
+        <md-table-cell>{{ gender }}</md-table-cell>
+        <md-table-cell>{{ title }}</md-table-cell>
       </md-table-row>
     </md-table>
   </div>

@@ -1,13 +1,11 @@
 <script>
   import MdComponent from 'core/MdComponent'
-  import MdContent from 'components/MdContent/MdContent'
   import MdTableContainer from './MdTableContainer'
   import MdTableCard from './MdTableCard'
 
   export default new MdComponent({
     name: 'MdTable',
     components: {
-      MdContent,
       MdTableContainer,
       MdTableCard
     },
@@ -23,6 +21,7 @@
     data: () => ({
       resizeObserver: null,
       MdTable: {
+        hasSelection: false,
         fixedHeader: null,
         sort: null,
         sortOrder: null,
@@ -30,6 +29,11 @@
         items: {}
       }
     }),
+    computed: {
+      tableItems () {
+        return this.MdTable.items
+      }
+    },
     provide () {
       const MdTable = this.MdTable
 
@@ -49,6 +53,12 @@
         immediate: true,
         handler () {
           this.MdTable.sortOrder = this.mdSortOrder
+        }
+      },
+      tableItems: {
+        deep: true,
+        handler () {
+          this.MdTable.hasSelection = Object.values(this.tableItems).some(item => item.hasSelection)
         }
       }
     },
@@ -98,7 +108,7 @@
       }, this.$slots.default)
 
       const createTable = slot => {
-        return createElement(MdContent, {
+        return createElement('div', {
           staticClass: 'md-table',
           class: [
             {

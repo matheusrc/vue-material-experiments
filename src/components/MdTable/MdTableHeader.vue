@@ -1,9 +1,9 @@
 <template>
   <div class="md-table-header" :style="headerStyles">
     <table>
-      <tr>
+      <md-table-row>
         <slot />
-      </tr>
+      </md-table-row>
     </table>
   </div>
 </template>
