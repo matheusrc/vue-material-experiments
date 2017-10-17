@@ -1,6 +1,8 @@
 <template>
-  <td>
-    <slot />
+  <td class="md-table-cell" :class="cellClasses">
+    <div class="md-table-cell-container">
+      <slot />
+    </div>
   </td>
 </template>
 
@@ -8,27 +10,74 @@
   export default {
     name: 'MdTableCell',
     props: {
-      mdLabel: String
+      mdLabel: String,
+      mdNumeric: Boolean,
+      mdTooltip: String,
+      mdSortBy: String
     },
     inject: ['MdTable'],
     data: () => ({
       index: null
     }),
+    computed: {
+      cellClasses () {
+        return {
+          'md-numeric': this.mdNumeric
+        }
+      }
+    },
+    methods: {
+      setCellData ($vm) {
+        this.$set(this.MdTable.items, $vm.index, {
+          label: $vm.mdLabel,
+          numeric: $vm.mdNumeric,
+          tooltip: $vm.mdTooltip,
+          sortBy: $vm.mdSortBy
+        })
+      },
+      updateAllCellData () {
+        const cells = Array.from(this.$el.parentNode.childNodes).filter(({ tagName }) => {
+          return tagName && tagName.toLowerCase() === 'td'
+        })
+
+        cells.forEach((cell, index) => {
+          const $vm = cell.__vue__
+
+          $vm.index = index
+
+          this.setCellData($vm)
+        })
+      }
+    },
     mounted () {
-      const cells = Array.from(this.$el.parentNode.childNodes).filter(({ tagName }) => {
-        return tagName && tagName.toLowerCase() === 'td'
-      })
-
-      cells.forEach((cell, index) => {
-        const $vm = cell.__vue__
-
-        this.index = index
-
-        this.$set(this.MdTable.labels, this.index, $vm.mdLabel)
-      })
+      this.updateAllCellData()
     },
     beforeDestroy () {
-      this.$delete(this.MdTable.labels, this.index)
+      this.$delete(this.MdTable.items, this.index)
     }
   }
 </script>
+
+<style lang="scss">
+  @import "~components/MdAnimation/variables";
+
+  .md-table-cell {
+    height: 48px;
+    position: relative;
+    transition: .3s $md-transition-default-timing;
+    font-size: 13px;
+    line-height: 18px;
+
+    &.md-numeric {
+      text-align: right;
+    }
+
+    &:last-child .md-table-cell-container {
+      padding-right: 24px;
+    }
+  }
+
+  .md-table-cell-container {
+    padding: 6px 32px 6px 24px;
+  }
+</style>

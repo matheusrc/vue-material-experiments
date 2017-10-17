@@ -1,36 +1,107 @@
 <template>
-  <div class="md-table">
+  <md-tag-switcher :md-tag="contentTag" class="md-table">
     <table>
       <thead>
-        <tr>
-          <th v-for="(label, index) in MdTable.labels" :key="index">{{ label }}</th>
-        </tr>
+        <md-table-row>
+          <md-table-head v-for="(item, index) in MdTable.items" :key="index" v-bind="item" />
+        </md-table-row>
       </thead>
 
       <tbody>
-        <tr v-for="(item, index) in value" :key="index">
-          <slot name="md-table-row" :row="item" />
-        </tr>
+        <slot name="md-table-row" v-for="(item, index) in value" :row="item" :md-item="item" />
       </tbody>
     </table>
-  </div>
+  </md-tag-switcher>
 </template>
 
 <script>
+  import MdTagSwitcher from 'components/MdTagSwitcher/MdTagSwitcher'
+  import MdTableHead from './MdTableHead'
+  import MdTableRow from './MdTableRow'
+
   export default {
     name: 'MdTable',
+    components: {
+      MdTagSwitcher,
+      MdTableHead,
+      MdTableRow
+    },
     props: {
-      value: [Array, Object]
+      value: [Array, Object],
+      mdCard: Boolean,
+      mdSort: String,
+      mdSortOrder: {
+        type: String,
+        default: 'asc'
+      }
     },
     data: () => ({
       MdTable: {
-        labels: {}
+        items: {},
+        sort: null,
+        sortOrder: null,
+        hasSelection: false,
+        fixedHeader: null,
+        contentPadding: null
       }
     }),
+    computed: {
+      contentTag () {
+        if (this.mdCard) {
+          return 'md-card'
+        }
+
+        return 'md-content'
+      },
+      tableItems () {
+        return this.MdTable.items
+      }
+    },
     provide () {
-      return {
-        MdTable: this.MdTable
+      const MdTable = this.MdTable
+
+      MdTable.emitEvent = this.emitEvent
+      // MdTable.getTableEl = this.getTableEl
+
+      return { MdTable }
+    },
+    watch: {
+      mdSort: {
+        immediate: true,
+        handler () {
+          this.MdTable.sort = this.mdSort
+        }
+      },
+      mdSortOrder: {
+        immediate: true,
+        handler () {
+          this.MdTable.sortOrder = this.mdSortOrder
+        }
+      }
+    },
+    methods: {
+      emitEvent (eventName, value) {
+        this.$emit(eventName, value)
       }
     }
   }
 </script>
+
+<style lang="scss">
+  .md-table {
+    display: flex;
+    flex-flow: column wrap;
+    overflow-x: auto;
+
+/*     &.md-has-card {
+      overflow: visible;
+    } */
+
+    table {
+      width: 100%;
+      border-spacing: 0;
+      border-collapse: collapse;
+      overflow: hidden;
+    }
+  }
+</style>
