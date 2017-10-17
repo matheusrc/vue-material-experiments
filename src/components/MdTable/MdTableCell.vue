@@ -36,8 +36,11 @@
         })
       },
       updateAllCellData () {
-        const cells = Array.from(this.$el.parentNode.childNodes).filter(({ tagName }) => {
-          return tagName && tagName.toLowerCase() === 'td'
+        const cells = Array.from(this.$el.parentNode.childNodes).filter(({ tagName, classList }) => {
+          const isSelection = classList && classList.contains('md-table-cell-selection')
+          const isTd = tagName && tagName.toLowerCase() === 'td'
+
+          return isTd && !isSelection
         })
 
         cells.forEach((cell, index) => {

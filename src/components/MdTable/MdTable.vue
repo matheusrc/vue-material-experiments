@@ -2,13 +2,16 @@
   <md-tag-switcher :md-tag="contentTag" class="md-table">
     <table>
       <thead>
-        <md-table-row>
+        <tr>
+          <md-table-head-selection />
           <md-table-head v-for="(item, index) in MdTable.items" :key="index" v-bind="item" />
-        </md-table-row>
+        </tr>
       </thead>
 
       <tbody>
-        <slot name="md-table-row" v-for="(item, index) in value" :row="item" :md-item="item" />
+        <md-table-row-ghost v-for="(item, index) in value" :key="index" :md-index="index">
+          <slot name="md-table-row" :item="item" />
+        </md-table-row-ghost>
       </tbody>
     </table>
   </md-tag-switcher>
@@ -18,13 +21,19 @@
   import MdTagSwitcher from 'components/MdTagSwitcher/MdTagSwitcher'
   import MdTableHead from './MdTableHead'
   import MdTableRow from './MdTableRow'
+  import MdTableRowGhost from './MdTableRowGhost'
+  import MdTableHeadSelection from './MdTableHeadSelection'
+  import MdTableCellSelection from './MdTableCellSelection'
 
   export default {
     name: 'MdTable',
     components: {
       MdTagSwitcher,
       MdTableHead,
-      MdTableRow
+      MdTableRow,
+      MdTableRowGhost,
+      MdTableHeadSelection,
+      MdTableCellSelection
     },
     props: {
       value: [Array, Object],
@@ -40,7 +49,7 @@
         items: {},
         sort: null,
         sortOrder: null,
-        hasSelection: false,
+        selectable: [],
         fixedHeader: null,
         contentPadding: null
       }

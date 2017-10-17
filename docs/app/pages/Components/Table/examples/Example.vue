@@ -1,12 +1,12 @@
 <template>
   <div>
     <md-table v-model="people" md-sort="name" md-sort-order="asc" md-card>
-      <md-table-row slot="md-table-row" slot-scope="{ row }">
-        <md-table-cell md-label="ID" md-numeric>{{ row.id }}</md-table-cell>
-        <md-table-cell md-label="Name" md-sort-by="name">{{ row.name }}</md-table-cell>
-        <md-table-cell md-label="Email" md-sort-by="email">{{ row.email }}</md-table-cell>
-        <md-table-cell md-label="Gender">{{ row.gender }}</md-table-cell>
-        <md-table-cell md-label="Job Title">{{ row.title }}</md-table-cell>
+      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable md-auto-select>
+        <md-table-cell md-label="ID" md-numeric>{{ item.id }}</md-table-cell>
+        <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+        <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
+        <md-table-cell md-label="Gender">{{ item.gender }}</md-table-cell>
+        <md-table-cell md-label="Job Title">{{ item.title }}</md-table-cell>
       </md-table-row>
     </md-table>
   </div>
