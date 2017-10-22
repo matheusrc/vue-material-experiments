@@ -24,10 +24,7 @@
 </template>
 
 <script>
-  import sortWith from 'ramda/es/sortWith'
-  import ascend from 'ramda/es/ascend'
-  import descend from 'ramda/es/descend'
-  import prop from 'ramda/es/prop'
+  import { sortWith, ascend, descend, prop } from 'ramda'
   import raf from 'raf'
 
   import MdTagSwitcher from 'components/MdTagSwitcher/MdTagSwitcher'
