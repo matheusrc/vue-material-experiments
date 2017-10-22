@@ -10,6 +10,11 @@ export const routes = [
     component: () => import(/* webpackChunkName: "table" */ './pages/Components/Table/Table.vue')
   },
   {
+    path: '/components/select',
+    name: 'components/select',
+    component: () => import(/* webpackChunkName: "select" */ './pages/Components/Select/Select.vue')
+  },
+  {
     path: '/components/datepicker',
     name: 'components/datepicker',
     component: () => import(/* webpackChunkName: "datepicker" */ './pages/Components/Datepicker/Datepicker.vue')
