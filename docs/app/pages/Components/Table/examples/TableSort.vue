@@ -1,16 +1,14 @@
 <template>
   <div>
-    <md-table v-model="people" md-sort="name" md-sort-order="asc" md-card>
+    <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card>
       <md-table-toolbar slot="md-table-toolbar">
-        <h1 class="md-title">Users</h1>
+        <div class="md-toolbar-section-start">
+          <h1 class="md-title">Users</h1>
+        </div>
 
-        <md-button class="md-icon-button">
-          <md-icon>filter_list</md-icon>
-        </md-button>
-
-        <md-button class="md-icon-button">
-          <md-icon>search</md-icon>
-        </md-button>
+        <md-field md-clearable class="md-toolbar-section-end">
+          <md-input placeholder="Search by name..." v-model="search" @input="searchOnTable" />
+        </md-field>
       </md-table-toolbar>
 
       <span slot="test">Test</span>
@@ -27,46 +25,74 @@
 </template>
 
 <script>
+  const toLower = text => {
+    return text.toLowerCase()
+  }
+
+  const searchByName = (items, term) => {
+    if (term) {
+      return items.filter(item => toLower(item.name).includes(toLower(term)))
+    }
+
+    return items
+  }
+
   export default {
     name: 'Example',
     data: () => ({
-      people: [
+      search: null,
+      searched: [],
+      users: [
         {
           id: 1,
-          name: "Shawna Dubbin",
-          email: "sdubbin0@geocities.com",
-          gender: "Male",
-          title: "Assistant Media Planner"
+          name: 'Shawna Dubbin',
+          email: 'sdubbin0@geocities.com',
+          gender: 'Male',
+          title: 'Assistant Media Planner'
         },
         {
           id: 2,
-          name: "Odette Demageard",
-          email: "odemageard1@spotify.com",
-          gender: "Female",
-          title: "Account Coordinator"
+          name: 'Odette Demageard',
+          email: 'odemageard1@spotify.com',
+          gender: 'Female',
+          title: 'Account Coordinator'
         },
         {
           id: 3,
-          name: "Lonnie Izkovitz",
-          email: "lizkovitz3@youtu.be",
-          gender: "Female",
-          title: "Operator"
+          name: 'Lonnie Izkovitz',
+          email: 'lizkovitz3@youtu.be',
+          gender: 'Female',
+          title: 'Operator'
         },
         {
           id: 4,
-          name: "Thatcher Stave",
-          email: "tstave4@reference.com",
-          gender: "Male",
-          title: "Software Test Engineer III"
+          name: 'Thatcher Stave',
+          email: 'tstave4@reference.com',
+          gender: 'Male',
+          title: 'Software Test Engineer III'
         },
         {
           id: 5,
-          name: "Clarinda Marieton",
-          email: "cmarietonh@theatlantic.com",
-          gender: "Female",
-          title: "Paralegal"
+          name: 'Clarinda Marieton',
+          email: 'cmarietonh@theatlantic.com',
+          gender: 'Female',
+          title: 'Paralegal'
         }
       ]
-    })
+    }),
+    methods: {
+      searchOnTable () {
+        this.searched = searchByName(this.users, this.search)
+      }
+    },
+    created () {
+      this.searched = this.users
+    }
   }
 </script>
+
+<style lang="scss" scoped>
+  .md-field {
+    max-width: 300px;
+  }
+</style>

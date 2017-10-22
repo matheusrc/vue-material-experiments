@@ -2,9 +2,9 @@
   <textarea
     class="md-textarea"
     :style="textareaStyles"
+    v-model="content"
     v-bind="attributes"
     v-on="$listeners"
-    v-model="content"
     @focus="onFocus"
     @blur="onBlur"
     @input="onInput"

@@ -1,5 +1,6 @@
 <example src="./examples/TableBasic.vue" />
 <example src="./examples/TableSort.vue" />
+<example src="./examples/TableFixed.vue" />
 <example src="./examples/Example.vue" />
 
 <template>
@@ -13,6 +14,7 @@
 
       <code-example title="Basic Table" :component="examples['table-basic']" />
       <code-example title="Sort with table within a card" :component="examples['table-sort']" />
+      <code-example title="Fixed headers" :component="examples['table-fixed']" />
       <code-example title="Example" :component="examples['example']" />
 
       <api-item title="API - md-table">

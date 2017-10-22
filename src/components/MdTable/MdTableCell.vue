@@ -68,9 +68,6 @@
     },
     mounted () {
       this.updateAllCellData()
-    },
-    beforeDestroy () {
-      this.$delete(this.MdTable.items, this.index)
     }
   }
 </script>
