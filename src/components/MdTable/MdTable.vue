@@ -18,6 +18,12 @@
 </template>
 
 <script>
+  import sortWith from 'ramda/es/sortWith'
+  import ascend from 'ramda/es/ascend'
+  import descend from 'ramda/es/descend'
+  import prop from 'ramda/es/prop'
+
+  import MdPropValidator from 'core/utils/MdPropValidator'
   import MdTagSwitcher from 'components/MdTagSwitcher/MdTagSwitcher'
   import MdTableHead from './MdTableHead'
   import MdTableRow from './MdTableRow'
@@ -41,7 +47,22 @@
       mdSort: String,
       mdSortOrder: {
         type: String,
-        default: 'asc'
+        default: 'asc',
+        ...MdPropValidator('md-sort-order', ['asc', 'desc'])
+      },
+      mdSortFn: {
+        type: Function,
+        default (value) {
+          if (this.MdTable.sortOrder === 'asc') {
+            return sortWith([
+              ascend(prop(this.MdTable.sort))
+            ])(value)
+          }
+
+          return sortWith([
+            descend(prop(this.MdTable.sort))
+          ])(value)
+        }
       }
     },
     data: () => ({
@@ -70,7 +91,7 @@
       const MdTable = this.MdTable
 
       MdTable.emitEvent = this.emitEvent
-      // MdTable.getTableEl = this.getTableEl
+      MdTable.sortTable = this.sortTable
 
       return { MdTable }
     },
@@ -91,6 +112,11 @@
     methods: {
       emitEvent (eventName, value) {
         this.$emit(eventName, value)
+      },
+      sortTable () {
+        if (Array.isArray(this.value)) {
+          this.$emit('input', this.mdSortFn(this.value))
+        }
       }
     }
   }

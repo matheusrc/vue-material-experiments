@@ -26,8 +26,22 @@
         }
       }
     },
+    watch: {
+      mdSortBy () {
+        this.setCellData()
+      },
+      mdNumeric () {
+        this.setCellData()
+      },
+      mdLabel () {
+        this.setCellData()
+      },
+      mdSortBy () {
+        this.setCellData()
+      }
+    },
     methods: {
-      setCellData ($vm) {
+      setCellData ($vm = this) {
         this.$set(this.MdTable.items, $vm.index, {
           label: $vm.mdLabel,
           numeric: $vm.mdNumeric,

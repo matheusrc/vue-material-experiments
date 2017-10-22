@@ -64,6 +64,7 @@
           this.MdTable.emitEvent('md-sorted', this.MdTable.sort)
           this.MdTable.emitEvent('update:mdSort', this.MdTable.sort)
           this.MdTable.emitEvent('update:mdSortOrder', this.MdTable.sortOrder)
+          this.MdTable.sortTable()
         }
       }
     }

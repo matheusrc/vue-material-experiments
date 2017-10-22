@@ -6,7 +6,7 @@
         <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
         <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
         <md-table-cell md-label="Gender">{{ item.gender }}</md-table-cell>
-        <md-table-cell md-label="Job Title">{{ item.title }}</md-table-cell>
+        <md-table-cell md-label="Job Title" md-sort-by="title">{{ item.title }}</md-table-cell>
       </md-table-row>
     </md-table>
   </div>
