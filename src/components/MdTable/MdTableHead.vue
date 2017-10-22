@@ -1,6 +1,7 @@
 <template>
-  <th class="md-table-head" :class="headClasses" @click="changeSort">
-    <md-ripple class="md-table-head-container" :md-disabled="!hasSort">
+  <th class="md-table-head" :class="headClasses" :style="headStyles" @click="changeSort">
+    <slot v-if="$slots.default" />
+    <md-ripple class="md-table-head-container" :md-disabled="!hasSort" v-else>
       <div class="md-table-head-label">
         <md-upward-icon class="md-table-sortable-icon" v-if="hasSort">arrow_upward</md-upward-icon>
 
@@ -27,6 +28,9 @@
       sortBy: String
     },
     inject: ['MdTable'],
+    data: () => ({
+      width: null
+    }),
     computed: {
       hasSort () {
         return this.MdTable.sort && this.sortBy
@@ -41,6 +45,11 @@
       },
       isAscSorted () {
         return this.isSorted && this.MdTable.sortOrder === 'asc'
+      },
+      headStyles () {
+        return {
+          width: this.width + 'px'
+        }
       },
       headClasses () {
         return {
@@ -66,7 +75,31 @@
           this.MdTable.emitEvent('update:mdSortOrder', this.MdTable.sortOrder)
           this.MdTable.sortTable()
         }
+      },
+      getChildNodesBySelector (el, selector) {
+        return Array.from(el.childNodes).filter(({ classList }) => classList && classList.contains(selector))
+      },
+      getNodeIndex (nodes, el) {
+        return [].indexOf.call(nodes, el)
+      },
+      setWidth () {
+        if (this.MdTable.fixedHeader) {
+          const cellSelector = 'md-table-cell'
+          const thEls = this.getChildNodesBySelector(this.$el.parentNode, 'md-table-head')
+          const tdEls = this.MdTable.contentEl.querySelectorAll('tr:first-child .' + cellSelector)
+          const nodeIndex = this.getNodeIndex(thEls, this.$el)
+
+          this.width = tdEls[nodeIndex].offsetWidth
+        }
       }
+    },
+    async updated () {
+      await this.$nextTick()
+      this.setWidth()
+    },
+    async mounted () {
+      await this.$nextTick()
+      this.setWidth()
     }
   }
 </script>
@@ -87,6 +120,14 @@
 
     &.md-numeric {
       text-align: right;
+    }
+
+    &.md-sortable:first-of-type,
+    &.md-table-cell-selection + .md-sortable {
+      .md-table-sortable-icon {
+        right: 8px;
+        left: auto;
+      }
     }
 
     .md-icon {
@@ -111,13 +152,6 @@
 
   .md-sortable {
     cursor: pointer;
-
-    &:first-of-type {
-      .md-table-sortable-icon {
-        right: 8px;
-        left: auto;
-      }
-    }
 
     &:hover,
     &.md-sorted {

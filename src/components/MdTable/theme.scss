@@ -1,7 +1,7 @@
 .md-table {
   @include md-theme-component() {
-    .md-table-header {
-      @include md-theme-property(border-bottom-color, divider, background);
+    .md-table-content {
+      @include md-theme-property(background-color, background);
     }
 
     .md-table-row {

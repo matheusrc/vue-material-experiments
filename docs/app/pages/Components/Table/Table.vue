@@ -1,3 +1,5 @@
+<example src="./examples/TableBasic.vue" />
+<example src="./examples/TableSort.vue" />
 <example src="./examples/Example.vue" />
 
 <template>
@@ -9,6 +11,8 @@
     <div class="page-container-section">
       <h2>Table</h2>
 
+      <code-example title="Basic Table" :component="examples['table-basic']" />
+      <code-example title="Sort with table within a card" :component="examples['table-sort']" />
       <code-example title="Example" :component="examples['example']" />
 
       <api-item title="API - md-table">

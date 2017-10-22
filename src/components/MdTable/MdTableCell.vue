@@ -36,7 +36,7 @@
       mdLabel () {
         this.setCellData()
       },
-      mdSortBy () {
+      mdTooltip () {
         this.setCellData()
       }
     },

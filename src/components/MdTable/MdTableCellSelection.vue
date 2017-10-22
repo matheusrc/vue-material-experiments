@@ -1,5 +1,5 @@
 <template>
-  <td class="md-table-cell md-table-cell-selection" v-if="MdTable.selectable.length">
+  <td class="md-table-cell md-table-cell-selection" v-if="mdSelectable">
     <div class="md-table-cell-container">
       <md-checkbox v-model="isSelected" :disabled="!mdSelectable" @change="onChange" />
     </div>

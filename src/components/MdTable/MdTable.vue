@@ -1,19 +1,25 @@
 <template>
   <md-tag-switcher :md-tag="contentTag" class="md-table">
-    <table>
-      <thead>
-        <tr>
-          <md-table-head-selection />
-          <md-table-head v-for="(item, index) in MdTable.items" :key="index" v-bind="item" />
-        </tr>
-      </thead>
+    <slot name="md-table-toolbar" />
+    <slot name="test" />
 
-      <tbody>
-        <md-table-row-ghost v-for="(item, index) in value" :key="index" :md-index="index">
-          <slot name="md-table-row" :item="item" />
-        </md-table-row-ghost>
-      </tbody>
-    </table>
+    <div class="md-table-fixed-header" :class="headerClasses" :style="headerStyles">
+      <table>
+        <md-table-thead v-if="mdFixedHeader" />
+      </table>
+    </div>
+
+    <md-content class="md-table-content md-scrollbar" :style="contentStyles" @scroll="setScroll">
+      <table>
+        <md-table-thead v-if="!mdFixedHeader" />
+
+        <tbody>
+          <md-table-row-ghost v-for="(item, index) in value" :key="index" :md-index="index">
+            <slot name="md-table-row" :item="item" />
+          </md-table-row-ghost>
+        </tbody>
+      </table>
+    </md-content>
   </md-tag-switcher>
 </template>
 
@@ -22,28 +28,36 @@
   import ascend from 'ramda/es/ascend'
   import descend from 'ramda/es/descend'
   import prop from 'ramda/es/prop'
+  import raf from 'raf'
 
-  import MdPropValidator from 'core/utils/MdPropValidator'
   import MdTagSwitcher from 'components/MdTagSwitcher/MdTagSwitcher'
-  import MdTableHead from './MdTableHead'
+  import MdPropValidator from 'core/utils/MdPropValidator'
+  import MdTableThead from './MdTableThead'
   import MdTableRow from './MdTableRow'
   import MdTableRowGhost from './MdTableRowGhost'
-  import MdTableHeadSelection from './MdTableHeadSelection'
   import MdTableCellSelection from './MdTableCellSelection'
 
   export default {
     name: 'MdTable',
     components: {
       MdTagSwitcher,
-      MdTableHead,
+      MdTableThead,
       MdTableRow,
       MdTableRowGhost,
-      MdTableHeadSelection,
       MdTableCellSelection
     },
     props: {
       value: [Array, Object],
       mdCard: Boolean,
+      mdFixedHeader: Boolean,
+      mdElevation: {
+        type: Number,
+        default: 2
+      },
+      mdHeight: {
+        type: Number,
+        default: 500
+      },
       mdSort: String,
       mdSortOrder: {
         type: String,
@@ -66,13 +80,16 @@
       }
     },
     data: () => ({
+      fixedHeaderPadding: 0,
+      hasContentScroll: false,
       MdTable: {
         items: {},
         sort: null,
         sortOrder: null,
         selectable: [],
         fixedHeader: null,
-        contentPadding: null
+        contentPadding: null,
+        contentEl: null
       }
     }),
     computed: {
@@ -83,8 +100,20 @@
 
         return 'md-content'
       },
-      tableItems () {
-        return this.MdTable.items
+      headerStyles () {
+        if (this.mdFixedHeader) {
+          return `padding-right: ${this.fixedHeaderPadding}px`
+        }
+      },
+      headerClasses () {
+        if (this.mdFixedHeader && this.hasContentScroll) {
+          return 'md-elevation-' + this.mdElevation
+        }
+      },
+      contentStyles () {
+        if (this.mdFixedHeader) {
+          return `height: ${this.mdHeight}px`
+        }
       }
     },
     provide () {
@@ -107,30 +136,70 @@
         handler () {
           this.MdTable.sortOrder = this.mdSortOrder
         }
+      },
+      mdFixedHeader: {
+        immediate: true,
+        handler () {
+          this.MdTable.fixedHeader = this.mdFixedHeader
+        }
       }
     },
     methods: {
       emitEvent (eventName, value) {
         this.$emit(eventName, value)
       },
+      setScroll ($event) {
+        raf(() => {
+          this.hasContentScroll = $event.target.scrollTop > 0
+        })
+      },
+      getContentEl () {
+        return this.$el.querySelector('.md-table-content')
+      },
+      setHeaderPadding () {
+        const contentEl = this.MdTable.contentEl
+        const tableEl = contentEl.childNodes[0]
+
+        this.fixedHeaderPadding = contentEl.offsetWidth - tableEl.offsetWidth
+      },
       sortTable () {
         if (Array.isArray(this.value)) {
           this.$emit('input', this.mdSortFn(this.value))
         }
+      }
+    },
+    mounted () {
+      this.MdTable.contentEl = this.getContentEl()
+
+      if (this.mdFixedHeader) {
+        this.setHeaderPadding()
       }
     }
   }
 </script>
 
 <style lang="scss">
+  @import "~components/MdAnimation/variables";
+
   .md-table {
     display: flex;
     flex-flow: column wrap;
     overflow-x: auto;
 
 /*     &.md-has-card {
-      overflow: visible;
+  overflow: visible;
     } */
+
+    .md-table-fixed-header {
+      position: relative;
+      transition: box-shadow .2s $md-transition-default-timing;
+      will-change: padding-right, box-shadow;
+    }
+
+    .md-table-content {
+      flex: 1;
+      overflow-x: auto;
+    }
 
     table {
       width: 100%;

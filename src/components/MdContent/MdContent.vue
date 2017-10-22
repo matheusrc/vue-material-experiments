@@ -1,5 +1,5 @@
 <template>
-  <div class="md-content" :class="[$mdActiveTheme]">
+  <div class="md-content" :class="[$mdActiveTheme]" v-bind="$attrs" v-on="$listeners">
     <slot />
   </div>
 </template>
