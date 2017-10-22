@@ -7,28 +7,26 @@
     </div>
 
     <label :for="id" class="md-checkbox-label" v-if="$slots.default" @click.prevent="toggleCheck">
-      <slot></slot>
+      <slot />
     </label>
   </div>
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
-import MdCheckboxMixin from 'components/MdCheckbox/MdCheckboxMixin'
-import MdUuid from 'core/MdUuid'
+  import MdComponent from 'core/MdComponent'
+  import MdCheckboxMixin from 'components/MdCheckbox/MdCheckboxMixin'
+  import MdUuid from 'core/utils/MdUuid'
 
-export default new MdComponent({
-  name: 'MdCheckbox',
-  mixins: [MdCheckboxMixin],
-  props: {
-    id: {
-      type: String,
-      default () {
-        return 'md-checkbox-' + MdUuid()
+  export default new MdComponent({
+    name: 'MdCheckbox',
+    mixins: [MdCheckboxMixin],
+    props: {
+      id: {
+        type: String,
+        default: () => 'md-checkbox-' + MdUuid()
       }
     }
-  }
-})
+  })
 </script>
 
 <style lang="scss">

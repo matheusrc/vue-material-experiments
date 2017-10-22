@@ -12,21 +12,19 @@
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
-import MdAppMixin from './MdAppMixin'
+  import MdComponent from 'core/MdComponent'
+  import MdAppMixin from './MdAppMixin'
 
-export default new MdComponent({
-  name: 'MdAppInternalDrawer',
-  mixins: [MdAppMixin]
-})
+  export default new MdComponent({
+    name: 'MdAppInternalDrawer',
+    mixins: [MdAppMixin]
+  })
 </script>
 
 <style lang="scss">
   @import "~components/MdAnimation/variables";
 
   .md-app-internal-drawer {
-    transition: .3s $md-transition-default-timing;
-
     .md-app-scroller {
       overflow: auto;
     }

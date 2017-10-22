@@ -1,12 +1,12 @@
 <template>
   <div class="main-nav-container">
     <transition name="nav" appear>
-      <nav class="main-nav" v-if="!isSplash">
+      <md-content class="main-nav md-scrollbar" v-if="!isSplash">
         <main-nav-content />
-      </nav>
+      </md-content>
     </transition>
 
-    <md-drawer md-fixed :md-visible.sync="menuVisible" @md-closed="hideMenu">
+    <md-drawer md-fixed :md-active.sync="isMenuVisible" @md-closed="hideMenu">
       <md-toolbar class="md-transparent" md-elevation="0">
         <logo-vue-material class="md-icon" animated :blending="false" />
         <span class="md-title">Vue material</span>
@@ -20,32 +20,41 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import * as types from 'store/mutation-types'
-import MainNavContent from './MainNavContent'
+  import { mapState, mapMutations } from 'vuex'
+  import * as types from 'store/mutation-types'
+  import MainNavContent from './MainNavContent'
 
-export default {
-  name: 'MainNav',
-  components: {
-    MainNavContent
-  },
-  computed: {
-    ...mapState({
-      isSplash: 'splashPage',
-      menuVisible: 'menuVisible'
-    })
-  },
-  methods: {
-    ...mapMutations({
-      hideMenu: types.HIDE_MENU
-    })
-  },
-  created () {
-    this.$router.afterEach((to, from, next) => {
-      this.hideMenu()
-    })
+  export default {
+    name: 'MainNav',
+    components: {
+      MainNavContent
+    },
+    data: () => ({
+      isMenuVisible: false
+    }),
+    computed: {
+      ...mapState({
+        isSplash: 'splashPage',
+        menuVisible: 'menuVisible'
+      })
+    },
+    watch: {
+      menuVisible (isMenuVisible) {
+        this.isMenuVisible = isMenuVisible
+      }
+    },
+    methods: {
+      ...mapMutations({
+        hideMenu: types.HIDE_MENU
+      })
+    },
+    created () {
+      this.$router.beforeEach((to, from, next) => {
+        this.hideMenu()
+        next()
+      })
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -54,7 +63,7 @@ export default {
 
   .main-nav {
     width: 230px;
-    padding: 24px 16px 96px 16px;
+    padding: 24px 16px 112px 16px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -97,7 +106,8 @@ export default {
     display: none;
 
     @include md-layout-xsmall {
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
   }
 
@@ -112,5 +122,8 @@ export default {
 
   .main-nav-drawer-content {
     padding: 16px;
+    flex: 1;
+    overflow: auto;
+    border-top: 1px solid rgba(#000, .12);
   }
 </style>

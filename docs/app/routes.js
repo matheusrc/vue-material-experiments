@@ -5,9 +5,59 @@ Vue.use(VueRouter)
 
 export const routes = [
   {
-    path: '/components/progress',
-    name: 'components/progress',
-    component: () => import(/* webpackChunkName: "progress" */ './pages/Components/Progress/Progress.vue')
+    path: '/components/select',
+    name: 'components/select',
+    component: () => import(/* webpackChunkName: "select" */ './pages/Components/Select/Select.vue')
+  },
+  {
+    path: '/components/datepicker',
+    name: 'components/datepicker',
+    component: () => import(/* webpackChunkName: "datepicker" */ './pages/Components/Datepicker/Datepicker.vue')
+  },
+  {
+    path: '/components/steppers/:test?',
+    name: 'components/steppers',
+    component: () => import(/* webpackChunkName: "steppers" */ './pages/Components/Steppers/Steppers.vue')
+  },
+  {
+    path: '/components/menu',
+    name: 'components/menu',
+    component: () => import(/* webpackChunkName: "menu" */ './pages/Components/Menu/Menu.vue')
+  },
+  {
+    path: '/components/tooltip',
+    name: 'components/tooltip',
+    component: () => import(/* webpackChunkName: "tooltip" */ './pages/Components/Tooltip/Tooltip.vue')
+  },
+  {
+    path: '/components/dialog',
+    name: 'components/dialog',
+    component: () => import(/* webpackChunkName: "dialog" */ './pages/Components/Dialog/Dialog.vue')
+  },
+  {
+    path: '/components/snackbar',
+    name: 'components/snackbar',
+    component: () => import(/* webpackChunkName: "snackbar" */ './pages/Components/Snackbar/Snackbar.vue')
+  },
+  {
+    path: '/components/tabs/:test?',
+    name: 'components/tabs',
+    component: () => import(/* webpackChunkName: "tabs" */ './pages/Components/Tabs/Tabs.vue')
+  },
+  {
+    path: '/components/bottom-bar/:test?',
+    name: 'components/bottom-bar',
+    component: () => import(/* webpackChunkName: "bottom-bar" */ './pages/Components/BottomBar/BottomBar.vue')
+  },
+  {
+    path: '/components/chips',
+    name: 'components/chips',
+    component: () => import(/* webpackChunkName: "chips" */ './pages/Components/Chips/Chips.vue')
+  },
+  {
+    path: '/components/avatar',
+    name: 'components/avatar',
+    component: () => import(/* webpackChunkName: "avatar" */ './pages/Components/Avatar/Avatar.vue')
   },
   {
     path: '/components/speed-dial',
@@ -67,7 +117,12 @@ export const routes = [
   {
     path: '/components/form',
     name: 'form',
-    redirect: '/components/input'
+    component: () => import(/* webpackChunkName: "form" */ './pages/Components/Form/Form.vue')
+  },
+  {
+    path: '/components/pickers',
+    name: 'pickers',
+    redirect: '/components/datepicker'
   },
   {
     path: '/components/icon',
@@ -85,7 +140,12 @@ export const routes = [
     component: () => import(/* webpackChunkName: "input" */ './pages/Components/Input/Input.vue')
   },
   {
-    path: '/components/list',
+    path: '/components/file',
+    name: 'components/file',
+    component: () => import(/* webpackChunkName: "file" */ './pages/Components/File/File.vue')
+  },
+  {
+    path: '/components/list/:test?',
     name: 'components/list',
     component: () => import(/* webpackChunkName: "list" */ './pages/Components/List/List.vue')
   },
@@ -133,11 +193,6 @@ export const routes = [
     path: '/ui-elements/typography',
     name: 'ui-elements/typography',
     component: () => import(/* webpackChunkName: "typography" */ './pages/UiElements/Typography/Typography.vue')
-  },
-  {
-    path: '/temp',
-    name: 'temp',
-    component: () => import(/* webpackChunkName: "temp" */ './pages/Temp.vue')
   },
   {
     path: '*',

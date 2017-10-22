@@ -1,24 +1,24 @@
 <template>
   <li class="md-subheader" :class="[$mdActiveTheme]" v-if="insideList">
-    <slot></slot>
+    <slot />
   </li>
 
   <div class="md-subheader" :class="[$mdActiveTheme]" v-else>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
+  import MdComponent from 'core/MdComponent'
 
-export default new MdComponent({
-  name: 'MdSubheader',
-  computed: {
-    insideList () {
-      return this.$parent.$options._componentTag === 'md-list'
+  export default new MdComponent({
+    name: 'MdSubheader',
+    computed: {
+      insideList () {
+        return this.$parent.$options._componentTag === 'md-list'
+      }
     }
-  }
-})
+  })
 </script>
 
 <style lang="scss">

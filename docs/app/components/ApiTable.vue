@@ -11,9 +11,9 @@
           <small class="prop-type" v-if="type">{{ type }}</small>
         </td>
 
-        <td>{{ description }}</td>
+        <td class="description" v-html="description"></td>
         <td v-if="defaults || value || example">
-          <code>{{ defaults || value || example }}</code>
+          <code v-html="defaults || value || example"></code>
         </td>
       </tr>
     </table>
@@ -83,10 +83,13 @@ export default {
     padding-left: 32px;
   }
 
-  .prop-name,
-  .prop-type {
+  .prop-name {
     display: block;
     text-transform: lowercase;
+  }
+
+  .prop-type {
+    text-transform: capitalize;
   }
 
   .prop-type {
@@ -94,6 +97,18 @@ export default {
   }
 
   code {
-    color: md-get-palette-color(red, A200)
+    color: md-get-palette-color(red, A200);
+    font-family: 'Roboto Mono', monospace;
+
+    >>> span {
+      color: md-get-palette-color(blue, A200);
+    }
+  }
+
+  .description {
+    >>> code {
+      color: md-get-palette-color(red, A200);
+      font-family: 'Roboto Mono', monospace;
+    }
   }
 </style>

@@ -1,61 +1,68 @@
 <template>
   <textarea
-    v-bind="{ id, disabled, required, placeholder, readonly, maxlength }"
-    v-model="content"
     class="md-textarea"
+    :style="textareaStyles"
+    v-bind="attributes"
+    v-on="$listeners"
+    v-model="content"
     @focus="onFocus"
     @blur="onBlur"
     @input="onInput"
-    @keydown.up="onInput"
-    @keydown.down="onInput"
-    ref="textarea"></textarea>
+    @change="onInput">
+  </textarea>
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
-import MdUuid from 'core/MdUuid'
-import MdFieldMixin from '../MdFieldMixin'
+  import MdComponent from 'core/MdComponent'
+  import MdUuid from 'core/utils/MdUuid'
+  import MdFieldMixin from '../MdFieldMixin'
 
-export default new MdComponent({
-  name: 'MdTextarea',
-  mixins: [MdFieldMixin],
-  inject: ['MdField'],
-  props: {
-    id: {
-      type: String,
-      default () {
-        return 'md-textarea-' + MdUuid()
+  export default new MdComponent({
+    name: 'MdTextarea',
+    mixins: [MdFieldMixin],
+    inject: ['MdField'],
+    props: {
+      id: {
+        type: String,
+        default: () => 'md-textarea-' + MdUuid()
+      },
+      mdAutogrow: Boolean
+    },
+    computed: {
+      textareaStyles () {
+        return {
+          height: this.textareaHeight
+        }
       }
     },
-    mdAutogrow: Boolean
-  },
-  methods: {
-    applyStyles () {
-      if (this.mdAutogrow) {
-        const textarea = this.$refs.textarea
-
-        textarea.style.height = '1px'
-        textarea.style.height = textarea.scrollHeight + 'px'
+    methods: {
+      applyStyles () {
+        if (this.mdAutogrow) {
+          this.textareaHeight = '1px'
+          this.textareaHeight = this.$el.scrollHeight + 'px'
+        }
+      },
+      setTextarea () {
+        this.MdField.textarea = true
+      },
+      setAutogrow () {
+        this.MdField.autogrow = this.mdAutogrow
+      },
+      onInput () {
+        this.setFieldValue()
+        this.applyStyles()
       }
     },
-    setTextarea () {
-      this.MdField.textarea = true
+    created () {
+      this.setTextarea()
+      this.setAutogrow()
     },
-    setAutogrow () {
-      this.MdField.autogrow = this.mdAutogrow
-    },
-    onInput () {
-      this.setFieldValue()
+    async mounted () {
+      await this.$nextTick()
       this.applyStyles()
+    },
+    beforeDestroy () {
+      this.setTextarea(false)
     }
-  },
-  created () {
-    this.setTextarea()
-    this.setAutogrow()
-  },
-  async mounted () {
-    await this.$nextTick()
-    this.applyStyles()
-  }
-})
+  })
 </script>

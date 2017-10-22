@@ -11,7 +11,7 @@ exclude_paths:
 
 engines:
   eslint:
-    enabled: true
+    enabled: false
 
   duplication:
     enabled: true
@@ -22,9 +22,7 @@ engines:
             - "src/**/*.js"
             - "src/**/*.vue"
             - "build/**/*.js"
-            - "build/**/*.vue"
             - "test/**/*.js"
-            - "test/**/*.vue"
             - "!src/**/*.test.js"
 
   markdownlint:

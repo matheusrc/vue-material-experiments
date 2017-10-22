@@ -1,7 +1,8 @@
 import mountTemplate from 'test/utils/mountTemplate'
+import mockConsole from 'test/utils/mockConsole'
 import MdCard from './MdCard.vue'
 
-test('should render the content', async () => {
+test('should render slot content', async () => {
   const template = '<md-card>Lorem ipsum</md-card>'
   const wrapper = await mountTemplate(MdCard, template)
 

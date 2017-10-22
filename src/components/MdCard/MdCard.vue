@@ -1,36 +1,36 @@
 <template>
   <div class="md-card" :class="[$mdActiveTheme, cardClasses]">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
+  import MdComponent from 'core/MdComponent'
 
-export default new MdComponent({
-  name: 'MdCard',
-  props: {
-    mdWithHover: Boolean
-  },
-  data: () => ({
-    MdCard: {
-      expand: false
-    }
-  }),
-  computed: {
-    cardClasses () {
+  export default new MdComponent({
+    name: 'MdCard',
+    props: {
+      mdWithHover: Boolean
+    },
+    data: () => ({
+      MdCard: {
+        expand: false
+      }
+    }),
+    provide () {
       return {
-        'md-with-hover': this.mdWithHover,
-        'md-expand-active': this.MdCard.expand
+        MdCard: this.MdCard
+      }
+    },
+    computed: {
+      cardClasses () {
+        return {
+          'md-with-hover': this.mdWithHover,
+          'md-expand-active': this.MdCard.expand
+        }
       }
     }
-  },
-  provide () {
-    return {
-      MdCard: this.MdCard
-    }
-  }
-})
+  })
 </script>
 
 <style lang="scss">

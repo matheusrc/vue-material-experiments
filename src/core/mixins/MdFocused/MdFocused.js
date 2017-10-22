@@ -1,4 +1,4 @@
-import MdReactive from 'core/MdReactive'
+import MdReactive from 'core/utils/MdReactive'
 
 const eventTarget = document.body
 
@@ -15,7 +15,7 @@ function checkPassiveEventSupport () {
         supportsPassiveEvent = { passive: true }
       }
     })
-    window.addEventListener('test', null, opts)
+    window.addEventListener('ghost', null, opts)
   } catch (e) {}
 }
 

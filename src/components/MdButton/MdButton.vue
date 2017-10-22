@@ -1,73 +1,70 @@
 <script>
-import MdComponent from 'core/MdComponent'
-import MdFocused from 'core/mixins/MdFocused/MdFocused'
-import MdRipple from 'core/mixins/MdRipple/MdRipple'
-import MdRouterLinkProps from 'core/MdRouterLinkProps'
-import MdButtonContent from './MdButtonContent'
+  import MdComponent from 'core/MdComponent'
+  import MdFocused from 'core/mixins/MdFocused/MdFocused'
+  import MdRipple from 'core/mixins/MdRipple/MdRipple'
+  import MdRouterLinkProps from 'core/utils/MdRouterLinkProps'
+  import MdButtonContent from './MdButtonContent'
 
-export default new MdComponent({
-  name: 'MdButton',
-  components: {
-    MdButtonContent
-  },
-  mixins: [
-    MdRipple,
-    MdFocused
-  ],
-  props: {
-    href: String,
-    type: {
-      type: String,
-      default: 'button'
+  export default new MdComponent({
+    name: 'MdButton',
+    components: {
+      MdButtonContent
     },
-    disabled: Boolean,
-    to: null
-  },
-  render (createElement) {
-    const buttonContent = createElement('md-button-content', {
-      attrs: {
-        mdRipple: this.mdRipple,
-        disabled: this.disabled
-      }
-    }, this.$slots.default)
-    let buttonAttrs = {
-      staticClass: 'md-button',
-      class: [
-        this.$mdActiveTheme,
-        {
-          'md-ripple-off': !this.mdRipple,
-          'md-focused': this.mdHasFocus
-        }
-      ],
-      attrs: {
-        href: this.href,
-        disabled: this.disabled,
-        type: !this.href && (this.type || 'button')
+    mixins: [
+      MdRipple,
+      MdFocused
+    ],
+    props: {
+      href: String,
+      type: {
+        type: String,
+        default: 'button'
       },
-      on: {
-        click: ($event) => {
-          this.$emit('click', $event)
+      disabled: Boolean,
+      to: null
+    },
+    render (createElement) {
+      const buttonContent = createElement('md-button-content', {
+        attrs: {
+          mdRipple: this.mdRipple,
+          disabled: this.disabled
         }
+      }, this.$slots.default)
+      let buttonAttrs = {
+        staticClass: 'md-button',
+        class: [
+          this.$mdActiveTheme,
+          {
+            'md-ripple-off': !this.mdRipple,
+            'md-focused': this.mdHasFocus
+          }
+        ],
+        attrs: {
+          ...this.attrs,
+          href: this.href,
+          disabled: this.disabled,
+          type: !this.href && (this.type || 'button')
+        },
+        on: this.$listeners
       }
+      let tag = 'button'
+
+      if (this.href) {
+        tag = 'a'
+      } else if (this.$router && this.to) {
+        this.$options.props = MdRouterLinkProps(this, this.$options.props)
+
+        tag = 'router-link'
+        buttonAttrs.props = this.$props
+        delete buttonAttrs.props.type
+        delete buttonAttrs.attrs.type
+        delete buttonAttrs.props.href
+        delete buttonAttrs.attrs.href
+      }
+
+      return createElement(tag, buttonAttrs, [buttonContent])
     }
-    let tag = 'button'
-
-    if (this.href) {
-      tag = 'a'
-    } else if (this.$router && this.to) {
-      this.$options.props = MdRouterLinkProps(this, this.$options.props)
-
-      tag = 'router-link'
-      buttonAttrs.props = this.$props
-      delete buttonAttrs.props.type
-      delete buttonAttrs.attrs.type
-      delete buttonAttrs.props.href
-      delete buttonAttrs.attrs.href
-    }
-
-    return createElement(tag, buttonAttrs, [buttonContent])
-  }
-})
+  })
 </script>
 
 <style lang="scss">
@@ -93,15 +90,13 @@ export default new MdComponent({
     display: inline-block;
     position: relative;
     overflow: hidden;
-    user-select: none;
     outline: none;
     background: transparent;
     border: 0;
     border-radius: 0;
     transition: $md-transition-default;
-    transition-property: opacity, box-shadow, color, background-color;
-    will-change: opacity, box-shadow, color, background-color;
     font-family: inherit;
+    line-height: normal;
     text-transform: uppercase;
     text-decoration: none;
     vertical-align: top;
@@ -113,6 +108,7 @@ export default new MdComponent({
     min-width: $md-button-min-width;
     height: $md-button-height;
     margin: 6px 8px;
+    user-select: none;
     border-radius: $md-button-radius;
     font-size: $md-button-font-size;
     font-weight: 500;
@@ -133,7 +129,7 @@ export default new MdComponent({
       &.md-focused {
         &:before {
           background-color: currentColor;
-          opacity: .15;
+          opacity: .12;
         }
       }
 

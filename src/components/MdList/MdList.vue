@@ -1,15 +1,15 @@
 <template>
-  <ul class="md-list" :class="[$mdActiveTheme]">
-    <slot></slot>
+  <ul class="md-list" :class="[$mdActiveTheme]" v-on="$listeners">
+    <slot />
   </ul>
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
+  import MdComponent from 'core/MdComponent'
 
-export default new MdComponent({
-  name: 'MdList'
-})
+  export default new MdComponent({
+    name: 'MdList'
+  })
 </script>
 
 <style lang="scss">

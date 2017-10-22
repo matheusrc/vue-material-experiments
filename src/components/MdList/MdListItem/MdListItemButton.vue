@@ -1,24 +1,16 @@
 <template>
-  <button type="button" class="md-list-item-button">
+  <button type="button" class="md-list-item-button" :disabled="disabled">
     <md-list-item-content :md-disabled="isDisabled">
-      <slot></slot>
+      <slot />
     </md-list-item-content>
   </button>
 </template>
 
 <script>
-import MdListItemMixin from './MdListItemMixin'
+  import MdListItemMixin from './MdListItemMixin'
 
-export default {
-  name: 'MdListItemButton',
-  mixins: [MdListItemMixin]
-}
-</script>
-
-<style lang="scss">
-  @import "~components/MdAnimation/variables";
-
-  .md-list-item-button {
-
+  export default {
+    name: 'MdListItemButton',
+    mixins: [MdListItemMixin]
   }
-</style>
+</script>

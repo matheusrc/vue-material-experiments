@@ -5,17 +5,17 @@
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
+  import MdComponent from 'core/MdComponent'
 
-export default new MdComponent({
-  name: 'MdToolbar',
-  props: {
-    mdElevation: {
-      type: [String, Number],
-      default: 4
+  export default new MdComponent({
+    name: 'MdToolbar',
+    props: {
+      mdElevation: {
+        type: [String, Number],
+        default: 4
+      }
     }
-  }
-})
+  })
 </script>
 
 <style lang="scss">
@@ -36,8 +36,8 @@ export default new MdComponent({
     align-items: center;
     align-content: center;
     transition: .3s $md-transition-default-timing;
-    transition-property: background-color, box-shadow, transform, color, min-height;
-    will-change: background-color, box-shadow, transform, color, min-height;
+    transition-property: opacity, background-color, box-shadow, transform, color, min-height;
+    will-change: opacity, background-color, box-shadow, transform, color, min-height;
 
     @include md-layout-small {
       min-height: $md-toolbar-height-landscape;

@@ -1,4 +1,4 @@
-import { ShellString, test, mkdir, cd, sed, exit } from 'shelljs'
+import { ShellString, test, mkdir, cd, sed, exit, exec } from 'shelljs'
 import { join } from 'path'
 
 function pascalToDash (str) {
@@ -17,11 +17,11 @@ function getVueComponent (name) {
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
+  import MdComponent from 'core/MdComponent'
 
-export default new MdComponent({
-  name: '${name}'
-})
+  export default new MdComponent({
+    name: '${name}'
+  })
 </script>
 
 <style lang="scss">
@@ -30,7 +30,8 @@ export default new MdComponent({
   .${pascalToDash(name)} {
     transition: .3s $md-transition-default-timing;
   }
-</style>`.trim()
+</style>
+`.trim()
 }
 
 function getTestFile (name) {
@@ -54,7 +55,7 @@ test('should render the theme class', async () => {
 
   expect(wrapper.hasClass('md-theme-alt')).toBe(true)
 })
-  `.trim()
+`.trim()
 }
 
 function getThemeFile (name) {
@@ -62,17 +63,19 @@ function getThemeFile (name) {
   @include md-theme-component() {
 
   }
-}`.trim()
+}
+`.trim()
 }
 
 function getIndexFile (name) {
-  return `import init from 'vue-material/material'
+  return `import material from 'vue-material/material'
 import ${name} from './${name}'
 
 export default Vue => {
-  init(Vue)
+  material(Vue)
   Vue.component(${name}.name, ${name})
-}`.trim()
+}
+`.trim()
 }
 
 function getDocsFile (name) {
@@ -105,7 +108,8 @@ function getDocsFile (name) {
     name: '${singleName}',
     mixins: [examples]
   }
-</script>`.trim()
+</script>
+`.trim()
 }
 
 function getExampleFile (name) {
@@ -127,7 +131,8 @@ function getExampleFile (name) {
   .${compName} {
 
   }
-</style>`.trim()
+</style>
+`.trim()
 }
 
 const writeToFile = (contents, file) => {
@@ -139,6 +144,11 @@ const writeToEndOfFile = (contents, file) => {
 }
 
 const [name] = process.argv.slice(2)
+
+if (!name) {
+  exit('Please provide the file name. Example: npm new-component \'MdComponent\'')
+}
+
 const singleName = name.replace('Md', '')
 const camelCasedName = toCamelCase(singleName.replace('Md', ''))
 const rootDir = join(__dirname, '..')
@@ -148,10 +158,6 @@ const themePath = 'src/theme/all.scss'
 const docsPath = 'docs/app/pages/components/' + singleName
 const docsRoutePath = 'docs/app/routes.js'
 const navPath = 'docs/app/template/MainNavContent.vue'
-
-if (!name) {
-  exit('Please provide the file name. Example: npm new-component \'MdComponent\'')
-}
 
 if (!test('-e', componentsPath)) {
   mkdir('-p', componentsPath)
@@ -193,3 +199,5 @@ if (!test('-e', docsPath)) {
 } else {
   exit(`echo 'This component already exists'`)
 }
+
+exec('yarn lint --fix')

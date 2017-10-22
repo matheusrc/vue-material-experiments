@@ -1,6 +1,6 @@
 export default {
   props: {
-    value: [String, Number],
+    value: [String, Number, Date, Array],
     placeholder: String,
     maxlength: [String, Number],
     readonly: Boolean,
@@ -9,15 +9,33 @@ export default {
   },
   data () {
     return {
+      textareaHeight: false,
       content: this.value || null
     }
   },
   computed: {
     clear () {
       return this.MdField.clear
+    },
+    attributes () {
+      return {
+        ...this.$attrs,
+        type: this.type,
+        id: this.id,
+        name: this.name,
+        disabled: this.disabled,
+        required: this.required,
+        placeholder: this.placeholder,
+        readonly: this.readonly,
+        maxlength: this.maxlength
+      }
     }
   },
   watch: {
+    value (value) {
+      this.content = value
+      this.setFieldValue()
+    },
     clear (clear) {
       if (clear) {
         this.clearField()
@@ -41,20 +59,22 @@ export default {
       this.$el.value = ''
       this.content = ''
       this.setFieldValue()
-      this.$emit('input', '')
     },
     setLabelFor () {
-      const label = this.$el.parentNode.querySelector('label')
+      if (this.$el.parentNode) {
+        const label = this.$el.parentNode.querySelector('label')
 
-      if (label) {
-        const forAttribute = label.getAttribute('for')
+        if (label) {
+          const forAttribute = label.getAttribute('for')
 
-        if (!forAttribute || forAttribute.indexOf('md-') >= 0) {
-          label.setAttribute('for', this.id)
+          if (!forAttribute || forAttribute.indexOf('md-') >= 0) {
+            label.setAttribute('for', this.id)
+          }
         }
       }
     },
     setFieldValue () {
+      this.$emit('input', this.content)
       this.MdField.value = this.content
     },
     setPlaceholder () {
@@ -76,7 +96,10 @@ export default {
       this.MdField.focused = false
     },
     onInput () {
-      this.setFieldValue()
+      const newValue = this.$el ? this.$el.value : this.content
+
+      this.$emit('input', newValue)
+      this.MdField.value = newValue
     }
   },
   created () {

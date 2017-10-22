@@ -28,14 +28,33 @@ export default {
     app: {
       title: 'App'
     },
+    avatar: {
+      title: 'Avatar'
+    },
+    bottomBar: {
+      title: 'Bottom Bar'
+    },
     card: {
       title: 'Card'
+    },
+    chips: {
+      title: 'Chips'
     },
     checkbox: {
       title: 'Checkbox'
     },
     content: {
       title: 'Content'
+    },
+    pickers: {
+      title: 'Pickers'
+    },
+    datepicker: {
+      title: 'Datepicker',
+      nav: 'Date'
+    },
+    dialog: {
+      title: 'Dialog'
     },
     divider: {
       title: 'Divider'
@@ -61,17 +80,35 @@ export default {
     radio: {
       title: 'Radio'
     },
+    select: {
+      title: 'Select'
+    },
+    file: {
+      title: 'File'
+    },
+    menu: {
+      title: 'Menu'
+    },
+    steppers: {
+      title: 'Steppers'
+    },
     switch: {
       title: 'Switch'
     },
     speedDial: {
       title: 'Speed Dial'
     },
+    snackbar: {
+      title: 'Snackbar'
+    },
     subheader: {
       title: 'Subheader'
     },
     toolbar: {
       title: 'Toolbar'
+    },
+    tooltip: {
+      title: 'Tooltip'
     },
     layout: {
       title: 'Layout'
@@ -84,6 +121,9 @@ export default {
     },
     typography: {
       title: 'Typography'
+    },
+    tabs: {
+      title: 'Tabs'
     },
     error: {
       title: 'Not Found'

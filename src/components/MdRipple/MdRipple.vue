@@ -14,120 +14,129 @@
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
+  import raf from 'raf'
+  import MdComponent from 'core/MdComponent'
 
-export default new MdComponent({
-  name: 'MdRipple',
-  props: {
-    mdActive: Boolean,
-    mdDisabled: Boolean,
-    mdCentered: Boolean
-  },
-  data: () => ({
-    eventType: null,
-    waveStyles: null,
-    animating: false,
-    touchTimeout: null
-  }),
-  computed: {
-    isDisabled () {
-      return !this.$material.ripple || this.mdDisabled
+  export default new MdComponent({
+    name: 'MdRipple',
+    props: {
+      mdActive: [Event, Boolean],
+      mdDisabled: Boolean,
+      mdCentered: Boolean
     },
-    rippleClasses () {
-      return {
-        'md-disabled': this.isDisabled
+    data: () => ({
+      eventType: null,
+      waveStyles: null,
+      animating: false,
+      touchTimeout: null
+    }),
+    computed: {
+      isDisabled () {
+        return !this.$material.ripple || this.mdDisabled
+      },
+      rippleClasses () {
+        return {
+          'md-disabled': this.isDisabled
+        }
+      },
+      waveClasses () {
+        return {
+          'md-centered': this.mdCentered
+        }
       }
     },
-    waveClasses () {
-      return {
-        'md-centered': this.mdCentered
+    watch: {
+      mdActive (active) {
+        const isBoolean = typeof active === 'boolean'
+        const isEvent = active.constructor.name.toLowerCase() === 'mouseevent'
+
+        if (this.mdCentered && isBoolean && active) {
+          this.startRipple({
+            type: 'mousedown'
+          })
+          this.$emit('update:mdActive', false)
+        } else if (isEvent) {
+          this.startRipple(active)
+          this.$emit('update:mdActive', false)
+        }
       }
-    }
-  },
-  watch: {
-    mdActive (active) {
-      if (this.mdCentered && active) {
-        this.startRipple({
-          type: 'mousedown'
+    },
+    methods: {
+      touchMoveCheck () {
+        window.clearTimeout(this.touchTimeout)
+      },
+      touchStartCheck ($event) {
+        this.touchTimeout = window.setTimeout(() => {
+          this.startRipple($event)
+        }, 100)
+      },
+      startRipple ($event) {
+        raf(async () => {
+          const { eventType, isDisabled, mdCentered } = this
+
+          if (!isDisabled && (!eventType || eventType === $event.type)) {
+            let size = this.getSize()
+            let position = null
+
+            if (mdCentered) {
+              position = this.getCenteredPosition(size)
+            } else {
+              position = this.getHitPosition($event, size)
+            }
+
+            await this.clearWave()
+
+            this.eventType = $event.type
+            this.animating = true
+            this.applyStyles(position, size)
+          }
         })
-        this.$emit('update:mdActive', false)
-      }
-    }
-  },
-  methods: {
-    touchMoveCheck () {
-      window.clearTimeout(this.touchTimeout)
-    },
-    touchStartCheck ($event) {
-      this.touchTimeout = window.setTimeout(() => {
-        this.startRipple($event)
-      }, 100)
-    },
-    async startRipple ($event) {
-      const { eventType, isDisabled, mdCentered } = this
+      },
+      applyStyles (position, size) {
+        size += 'px'
 
-      if (!isDisabled && (!eventType || eventType === $event.type)) {
-        let rippleSize = this.getSize()
-        let ripplePosition = null
+        this.waveStyles = {
+          ...position,
+          width: size,
+          height: size
+        }
+      },
+      clearWave () {
+        this.waveStyles = null
+        this.animating = false
 
-        if (mdCentered) {
-          ripplePosition = this.getCenteredPosition(rippleSize)
-        } else {
-          ripplePosition = this.getHitPosition($event, rippleSize)
+        return this.$nextTick()
+      },
+      getSize () {
+        const { offsetWidth, offsetHeight } = this.$el
+
+        return Math.round(Math.max(offsetWidth, offsetHeight))
+      },
+      getCenteredPosition (size) {
+        const halfSize = -size / 2 + 'px'
+
+        return {
+          'margin-top': halfSize,
+          'margin-left': halfSize
+        }
+      },
+      getHitPosition ($event, elementSize) {
+        const rect = this.$el.getBoundingClientRect()
+        let top = $event.pageY
+        let left = $event.pageX
+
+        if ($event.type === 'touchstart') {
+          top = $event.changedTouches[0].pageY
+          left = $event.changedTouches[0].pageX
         }
 
-        await this.clearWave()
-
-        this.eventType = $event.type
-        this.animating = true
-        this.applyStyles(ripplePosition, rippleSize)
-      }
-    },
-    applyStyles (position, size) {
-      size += 'px'
-
-      this.waveStyles = {
-        ...position,
-        width: size,
-        height: size
-      }
-    },
-    clearWave () {
-      this.waveStyles = null
-      this.animating = false
-
-      return this.$nextTick()
-    },
-    getSize () {
-      const { offsetWidth, offsetHeight } = this.$el
-
-      return Math.round(Math.max(offsetWidth, offsetHeight))
-    },
-    getCenteredPosition (size) {
-      const halfSize = -size / 2 + 'px'
-
-      return {
-        'margin-top': halfSize,
-        'margin-left': halfSize
-      }
-    },
-    getHitPosition ($event, elementSize) {
-      const rect = this.$el.getBoundingClientRect()
-      let top = $event.pageY
-      let left = $event.pageX
-
-      if ($event.type === 'touchstart') {
-        top = $event.changedTouches[0].pageY
-        left = $event.changedTouches[0].pageX
-      }
-
-      return {
-        top: top - rect.top - elementSize / 2 - document.documentElement.scrollTop + 'px',
-        left: left - rect.left - elementSize / 2 - document.documentElement.scrollLeft + 'px'
+        return {
+          top: top - rect.top - elementSize / 2 - document.documentElement.scrollTop + 'px',
+          left: left - rect.left - elementSize / 2 - document.documentElement.scrollLeft + 'px'
+        }
       }
     }
-  }
-})
+  })
 </script>
 
 <style lang="scss">

@@ -5,17 +5,22 @@
 </template>
 
 <script>
-export default {
-  name: 'MdSpeedDialTarget',
-  inject: ['MdSpeedDial'],
-  methods: {
-    handleClick () {
-      if (this.MdSpeedDial.event === 'click') {
-        this.MdSpeedDial.active = !this.MdSpeedDial.active
+  import MdButton from 'components/MdButton/MdButton'
+
+  export default {
+    name: 'MdSpeedDialTarget',
+    components: {
+      MdButton
+    },
+    inject: ['MdSpeedDial'],
+    methods: {
+      handleClick () {
+        if (this.MdSpeedDial.event === 'click') {
+          this.MdSpeedDial.active = !this.MdSpeedDial.active
+        }
       }
     }
   }
-}
 </script>
 
 <style lang="scss">

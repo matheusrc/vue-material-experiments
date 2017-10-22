@@ -1,5 +1,5 @@
 <template>
-  <div class="md-field" :class="[$mdActiveTheme, fieldClasses]">
+  <div class="md-field" :class="[$mdActiveTheme, fieldClasses]" @blur="onBlur">
     <slot />
 
     <span class="md-count" v-if="hasCounter">{{ valueLength }} / {{ MdField.maxlength }}</span>
@@ -20,98 +20,105 @@
 </template>
 
 <script>
-import MdComponent from 'core/MdComponent'
-import MdClearIcon from 'core/Icons/MdClearIcon'
-import MdPasswordOffIcon from 'core/Icons/MdPasswordOffIcon'
-import MdPasswordOnIcon from 'core/Icons/MdPasswordOnIcon'
+  import MdComponent from 'core/MdComponent'
+  import MdClearIcon from 'core/icons/MdClearIcon'
+  import MdPasswordOffIcon from 'core/icons/MdPasswordOffIcon'
+  import MdPasswordOnIcon from 'core/icons/MdPasswordOnIcon'
 
-export default new MdComponent({
-  name: 'MdField',
-  components: {
-    MdClearIcon,
-    MdPasswordOffIcon,
-    MdPasswordOnIcon
-  },
-  props: {
-    mdInline: Boolean,
-    mdClearable: Boolean,
-    mdCounter: {
-      type: Boolean,
-      default: true
+  export default new MdComponent({
+    name: 'MdField',
+    components: {
+      MdClearIcon,
+      MdPasswordOffIcon,
+      MdPasswordOnIcon
     },
-    mdTogglePassword: {
-      type: Boolean,
-      default: true
-    }
-  },
-  data: () => ({
-    showPassword: false,
-    MdField: {
-      value: null,
-      focused: false,
-      disabled: false,
-      required: false,
-      placeholder: false,
-      textarea: false,
-      autogrow: false,
-      maxlength: null,
-      password: null,
-      togglePassword: false,
-      clear: false
-    }
-  }),
-  provide () {
-    return {
-      MdField: this.MdField
-    }
-  },
-  computed: {
-    hasCounter () {
-      return this.mdCounter && this.MdField.maxlength
-    },
-    hasPasswordToggle () {
-      return this.mdTogglePassword && this.MdField.password
-    },
-    hasValue () {
-      return this.MdField.value && this.MdField.value.length > 0
-    },
-    valueLength () {
-      if (this.MdField.value) {
-        return this.MdField.value.length
+    props: {
+      mdInline: Boolean,
+      mdClearable: Boolean,
+      mdCounter: {
+        type: Boolean,
+        default: true
+      },
+      mdTogglePassword: {
+        type: Boolean,
+        default: true
       }
-
-      return 0
     },
-    fieldClasses () {
+    data: () => ({
+      showPassword: false,
+      MdField: {
+        value: null,
+        focused: false,
+        highlighted: false,
+        disabled: false,
+        required: false,
+        placeholder: false,
+        textarea: false,
+        autogrow: false,
+        maxlength: null,
+        password: null,
+        togglePassword: false,
+        clear: false,
+        file: false
+      }
+    }),
+    provide () {
       return {
-        'md-inline': this.mdInline,
-        'md-clearable': this.mdClearable,
-        'md-focused': this.MdField.focused,
-        'md-disabled': this.MdField.disabled,
-        'md-required': this.MdField.required,
-        'md-has-value': this.MdField.value && this.MdField.value.length > 0,
-        'md-has-placeholder': this.MdField.placeholder,
-        'md-has-textarea': this.MdField.textarea,
-        'md-has-password': this.MdField.password,
-        'md-autogrow': this.MdField.autogrow
-        /* ,
-          'md-has-select': this.MdField.mdHasSelect,
-          'md-has-file': this.MdField.hasFile,
-           */
+        MdField: this.MdField
+      }
+    },
+    computed: {
+      stringValue () {
+        return this.MdField.value && this.MdField.value.toString()
+      },
+      hasCounter () {
+        return this.mdCounter && this.MdField.maxlength
+      },
+      hasPasswordToggle () {
+        return this.mdTogglePassword && this.MdField.password
+      },
+      hasValue () {
+        return this.stringValue && this.stringValue.length > 0
+      },
+      valueLength () {
+        if (this.stringValue) {
+          return this.stringValue.length
+        }
+
+        return 0
+      },
+      fieldClasses () {
+        return {
+          'md-inline': this.mdInline,
+          'md-clearable': this.mdClearable,
+          'md-focused': this.MdField.focused,
+          'md-highlight': this.MdField.highlighted,
+          'md-disabled': this.MdField.disabled,
+          'md-required': this.MdField.required,
+          'md-has-value': this.hasValue,
+          'md-has-placeholder': this.MdField.placeholder,
+          'md-has-textarea': this.MdField.textarea,
+          'md-has-password': this.MdField.password,
+          'md-has-file': this.MdField.file,
+          'md-has-select': this.MdField.select,
+          'md-autogrow': this.MdField.autogrow
+        }
+      }
+    },
+    methods: {
+      async clearInput () {
+        this.MdField.clear = true
+        await this.$nextTick()
+        this.MdField.clear = false
+      },
+      async togglePassword () {
+        this.MdField.togglePassword = !this.MdField.togglePassword
+      },
+      onBlur () {
+        this.MdField.highlighted = false
       }
     }
-  },
-  methods: {
-    async clearInput () {
-      this.MdField.clear = true
-      await this.$nextTick()
-      this.MdField.clear = false
-    },
-    async togglePassword () {
-      this.MdField.togglePassword = !this.MdField.togglePassword
-    }
-  }
-})
+  })
 </script>
 
 <style lang="scss">
@@ -126,6 +133,7 @@ export default new MdComponent({
     padding-top: 16px;
     display: flex;
     position: relative;
+    font-family: inherit;
 
     &:before,
     &:after {
@@ -171,6 +179,10 @@ export default new MdComponent({
       font-size: 1px;
       line-height: $md-input-height;
 
+      &[type="date"] {
+        font-size: 16px;
+      }
+
       &:focus {
         outline: none;
       }
@@ -199,7 +211,7 @@ export default new MdComponent({
       position: absolute;
       bottom: -22px;
       font-size: 12px;
-      transition: $md-transition-default;
+      transition: .3s $md-transition-default-timing;
     }
 
     .md-error {
@@ -330,7 +342,8 @@ export default new MdComponent({
       }
 
       &:hover,
-      &.md-focused {
+      &.md-focused,
+      &.md-highlight {
         &:before {
           border-width: 2px;
         }
@@ -348,15 +361,29 @@ export default new MdComponent({
       }
     }
 
+    &.md-has-file {
+      &:before,
+      &:after,
+      label {
+        left: 36px;
+      }
+
+      .md-input {
+        margin-left: 12px;
+      }
+    }
+
     &:hover,
-    &.md-focused {
+    &.md-focused,
+    &.md-highlight {
       &:after,
       &:before {
         height: 2px;
       }
     }
 
-    &.md-focused {
+    &.md-focused,
+    &.md-highlight {
       &:before {
         transform: scaleX(1);
       }
@@ -431,6 +458,26 @@ export default new MdComponent({
     }
 
     &.md-invalid {
+      @keyframes md-invalid-shake {
+        10%, 90% {
+          transform: translate3d(-1px, 0, 0);
+        }
+
+        30%, 70% {
+          transform: translate3d(-4px, 0, 0);
+        }
+
+        40%, 60% {
+          transform: translate3d(4px, 0, 0);
+        }
+      }
+
+      &.md-has-value label:not(:focus) {
+        animation: md-invalid-shake .4s $md-transition-default-timing both;
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
+
       &.md-has-textarea:not(.md-autogrow) {
         &:before {
           border-width: 2px;
@@ -457,12 +504,6 @@ export default new MdComponent({
         content: "*";
         line-height: 1em;
         vertical-align: top;
-      }
-    }
-
-    &.md-has-select:hover {
-      .md-select:not(.md-disabled):after {
-
       }
     }
   }
