@@ -24,6 +24,7 @@
   "scripts": {
     "dev": "babel-node build/local",
     "build": "rm -rf dist; babel-node build/lib",
+    "build-analyze": "rm -rf dist; babel-node build/lib --analyze",
     "lint": "eslint --ext .js,.vue docs src build test",
     "test": "jest",
     "coverage": "yarn test --coverage",
