@@ -190,6 +190,10 @@
         font-size: 16px;
       }
 
+      &[disabled] {
+        cursor: default;
+      }
+
       &:focus {
         outline: none;
       }
