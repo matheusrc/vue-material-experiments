@@ -11,13 +11,6 @@
         </md-field>
       </md-table-toolbar>
 
-      <md-table-empty-state
-        md-icon="person"
-        md-label="No users found"
-        :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`">
-        <md-button class="md-primary md-raised" @click="newUser">Create New User</md-button>
-      </md-table-empty-state>
-
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
         <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
@@ -86,9 +79,6 @@
       ]
     }),
     methods: {
-      newUser () {
-        window.alert('Noop')
-      },
       searchOnTable () {
         this.searched = searchByName(this.users, this.search)
       }

@@ -18,7 +18,7 @@
       @include md-theme-property(color, text-accent, background);
     }
 
-    .md-table-fixed-header-active tr {
+    .md-table-fixed-header-active {
       @include md-theme-property(border-bottom-color, divider, background);
     }
 

@@ -2,9 +2,9 @@
   <md-tag-switcher :md-tag="contentTag" class="md-table">
     <slot name="md-table-toolbar" />
 
-    <div class="md-table-fixed-header" :style="headerStyles">
+    <div class="md-table-fixed-header" :class="headerClasses" :style="headerStyles">
       <table>
-        <md-table-thead :class="headerClasses" v-if="mdFixedHeader" />
+        <md-table-thead v-if="mdFixedHeader" />
       </table>
     </div>
 
@@ -18,7 +18,7 @@
           </md-table-row-ghost>
         </tbody>
 
-        <tbody v-else>
+        <tbody v-else-if="$scopedSlots['md-table-empty-state']">
           <tr>
             <td :colspan="headerCount">
               <slot name="md-table-empty-state" />
@@ -59,7 +59,7 @@
       mdFixedHeader: Boolean,
       mdHeight: {
         type: Number,
-        default: 500
+        default: 400
       },
       mdSort: String,
       mdSortOrder: {
@@ -199,17 +199,16 @@
 
     .md-table-fixed-header {
       position: relative;
-      transition: box-shadow .2s $md-transition-default-timing;
-      will-change: padding-right, box-shadow;
     }
 
-    .md-table-fixed-header-active tr {
+    .md-table-fixed-header-active {
       border-bottom: 1px solid;
     }
 
     .md-table-content {
       flex: 1;
       overflow-x: auto;
+      transition: height .3s $md-transition-default-timing;
     }
 
     table {

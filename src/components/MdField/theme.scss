@@ -60,6 +60,10 @@
         background-color: rgba(#fff, .7);
       }
 
+      &:before {
+        @include md-theme-property(background-color, primary);
+      }
+
       .md-helper-text,
       .md-count,
       label {

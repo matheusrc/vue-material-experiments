@@ -59,7 +59,7 @@
   .md-empty-state {
     @include md-empty-state-base;
     max-width: 420px;
-    padding: 40px;
+    padding: 36px;
     margin: 0 auto;
     position: relative;
     transition: opacity .15s $md-transition-enter-timing,
