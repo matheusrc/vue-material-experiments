@@ -1,3 +1,14 @@
+checks:
+  file-lines:
+    config:
+      threshold: 300
+  method-count:
+    config:
+      threshold: 30
+  method-lines:
+    config:
+      threshold: 40
+
 ratings:
   paths:
     - build/**
@@ -9,9 +20,12 @@ exclude_paths:
   - coverage/*
   - dist/*
 
-engines:
+plugins:
   eslint:
     enabled: false
+
+  scss-lint:
+    enabled: true
 
   duplication:
     enabled: true
