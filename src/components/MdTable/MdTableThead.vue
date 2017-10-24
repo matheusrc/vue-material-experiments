@@ -1,8 +1,10 @@
 <template>
-  <tr>
-    <md-table-head-selection />
-    <md-table-head v-for="(item, index) in MdTable.items" :key="index" v-bind="item" />
-  </tr>
+  <thead>
+    <tr>
+      <md-table-head-selection />
+      <md-table-head v-for="(item, index) in MdTable.items" :key="index" v-bind="item" />
+    </tr>
+  </thead>
 </template>
 
 <script>

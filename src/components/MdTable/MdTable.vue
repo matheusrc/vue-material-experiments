@@ -1,22 +1,29 @@
 <template>
   <md-tag-switcher :md-tag="contentTag" class="md-table">
     <slot name="md-table-toolbar" />
-    <slot name="test" />
 
-    <div class="md-table-fixed-header" :class="headerClasses" :style="headerStyles">
+    <div class="md-table-fixed-header" :style="headerStyles">
       <table>
-        <md-table-thead v-if="mdFixedHeader" />
+        <md-table-thead :class="headerClasses" v-if="mdFixedHeader" />
       </table>
     </div>
 
     <md-content class="md-table-content md-scrollbar" :style="contentStyles" @scroll="setScroll">
       <table>
-        <md-table-thead v-if="!mdFixedHeader" />
+        <md-table-thead :class="headerClasses" v-if="!mdFixedHeader" />
 
-        <tbody>
+        <tbody v-if="value.length">
           <md-table-row-ghost v-for="(item, index) in value" :key="index" :md-index="index">
             <slot name="md-table-row" :item="item" />
           </md-table-row-ghost>
+        </tbody>
+
+        <tbody v-else>
+          <tr>
+            <td :colspan="headerCount">
+              <slot name="md-table-empty-state" />
+            </td>
+          </tr>
         </tbody>
       </table>
     </md-content>
@@ -96,14 +103,17 @@
 
         return 'md-content'
       },
+      headerCount () {
+        return Object.keys(this.MdTable.items).length
+      },
       headerStyles () {
         if (this.mdFixedHeader) {
           return `padding-right: ${this.fixedHeaderPadding}px`
         }
       },
       headerClasses () {
-        if (this.mdFixedHeader && this.hasContentScroll) {
-          return 'md-table-fixed-header-scrolling'
+        if ((this.mdFixedHeader && this.hasContentScroll) || this.value.length === 0) {
+          return 'md-table-fixed-header-active'
         }
       },
       contentStyles () {
@@ -152,8 +162,13 @@
       getContentEl () {
         return this.$el.querySelector('.md-table-content')
       },
+      setContentEl () {
+        this.MdTable.contentEl = this.getContentEl()
+      },
       setHeaderPadding () {
-        const contentEl = this.MdTable.contentEl
+        this.setContentEl()
+
+        const { contentEl } = this.MdTable
         const tableEl = contentEl.childNodes[0]
 
         this.fixedHeaderPadding = contentEl.offsetWidth - tableEl.offsetWidth
@@ -165,7 +180,7 @@
       }
     },
     mounted () {
-      this.MdTable.contentEl = this.getContentEl()
+      this.setContentEl()
 
       if (this.mdFixedHeader) {
         this.setHeaderPadding()
@@ -182,13 +197,13 @@
     flex-flow: column wrap;
     overflow-x: auto;
 
-    .md-table-fixed-header-scrolling{
+    .md-table-fixed-header {
       position: relative;
       transition: box-shadow .2s $md-transition-default-timing;
       will-change: padding-right, box-shadow;
     }
 
-    .md-table-fixed-header-scrolling {
+    .md-table-fixed-header-active tr {
       border-bottom: 1px solid;
     }
 

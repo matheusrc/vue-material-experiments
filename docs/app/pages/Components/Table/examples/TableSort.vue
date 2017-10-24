@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card>
-      <md-table-toolbar slot="md-table-toolbar">
+      <md-table-toolbar>
         <div class="md-toolbar-section-start">
           <h1 class="md-title">Users</h1>
         </div>
@@ -11,7 +11,12 @@
         </md-field>
       </md-table-toolbar>
 
-      <span slot="test">Test</span>
+      <md-table-empty-state
+        md-icon="person"
+        md-label="No users found"
+        :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`">
+        <md-button class="md-primary md-raised" @click="newUser">Create New User</md-button>
+      </md-table-empty-state>
 
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
@@ -81,6 +86,9 @@
       ]
     }),
     methods: {
+      newUser () {
+        window.alert('Noop')
+      },
       searchOnTable () {
         this.searched = searchByName(this.users, this.search)
       }
