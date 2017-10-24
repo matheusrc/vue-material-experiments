@@ -18,6 +18,10 @@
       @include md-theme-property(color, text-accent, background);
     }
 
+    .md-table-fixed-header-scrolling {
+      @include md-theme-property(border-bottom-color, divider, background);
+    }
+
     .md-sortable {
       &:hover,
       &.md-sorted {

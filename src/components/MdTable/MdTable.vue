@@ -50,10 +50,6 @@
       value: [Array, Object],
       mdCard: Boolean,
       mdFixedHeader: Boolean,
-      mdElevation: {
-        type: Number,
-        default: 2
-      },
       mdHeight: {
         type: Number,
         default: 500
@@ -107,7 +103,7 @@
       },
       headerClasses () {
         if (this.mdFixedHeader && this.hasContentScroll) {
-          return 'md-elevation-' + this.mdElevation
+          return 'md-table-fixed-header-scrolling'
         }
       },
       contentStyles () {
@@ -186,14 +182,14 @@
     flex-flow: column wrap;
     overflow-x: auto;
 
-/*     &.md-has-card {
-  overflow: visible;
-    } */
-
-    .md-table-fixed-header {
+    .md-table-fixed-header-scrolling{
       position: relative;
       transition: box-shadow .2s $md-transition-default-timing;
       will-change: padding-right, box-shadow;
+    }
+
+    .md-table-fixed-header-scrolling {
+      border-bottom: 1px solid;
     }
 
     .md-table-content {
