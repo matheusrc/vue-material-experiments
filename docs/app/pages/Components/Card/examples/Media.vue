@@ -3,12 +3,12 @@
     <md-card>
       <md-card-header>
         <md-card-header-text>
-          <div class="md-title">Title goes here</div>
-          <div class="md-subhead">Subtitle here</div>
+          <div class="md-title">Media card</div>
+          <div class="md-subhead">Normal size</div>
         </md-card-header-text>
 
         <md-card-media>
-          <img src="assets/examples/avatar-2.jpg" alt="People">
+          <img src="/assets/examples/avatar-2.jpg" alt="People">
         </md-card-media>
       </md-card-header>
 
@@ -21,12 +21,12 @@
     <md-card>
       <md-card-header>
         <md-card-header-text>
-          <div class="md-title">Title goes here</div>
-          <div class="md-subhead">Subtitle here</div>
+          <div class="md-title">Media card</div>
+          <div class="md-subhead">Medium size</div>
         </md-card-header-text>
 
         <md-card-media md-medium>
-          <img src="assets/examples/card-weather.png" alt="People">
+          <img src="/assets/examples/card-weather.png" alt="People">
         </md-card-media>
       </md-card-header>
 
@@ -39,12 +39,12 @@
     <md-card>
       <md-card-header>
         <md-card-header-text>
-          <div class="md-title">Title goes</div>
-          <div class="md-subhead">Subtitle here</div>
+          <div class="md-title">Media card</div>
+          <div class="md-subhead">Big size</div>
         </md-card-header-text>
 
         <md-card-media md-big>
-          <img src="assets/examples/cover.png" alt="People">
+          <img src="/assets/examples/cover.png" alt="People">
         </md-card-media>
       </md-card-header>
 
@@ -57,7 +57,7 @@
     <md-card>
       <md-card-media-actions>
         <md-card-media>
-          <img src="assets/examples/villains.png" alt="Cover">
+          <img src="/assets/examples/villains.png" alt="Cover">
         </md-card-media>
 
         <md-card-actions>

@@ -31,10 +31,6 @@
 </template>
 
 <script>
-  import sortWith from 'ramda/es/sortWith'
-  import ascend from 'ramda/es/ascend'
-  import descend from 'ramda/es/descend'
-  import prop from 'ramda/es/prop'
   import raf from 'raf'
 
   import MdTagSwitcher from 'components/MdTagSwitcher/MdTagSwitcher'
@@ -70,15 +66,15 @@
       mdSortFn: {
         type: Function,
         default (value) {
-          if (this.MdTable.sortOrder === 'asc') {
-            return sortWith([
-              ascend(prop(this.MdTable.sort))
-            ])(value)
-          }
+          return value.sort((a, b) => {
+            const sortBy = this.MdTable.sort
 
-          return sortWith([
-            descend(prop(this.MdTable.sort))
-          ])(value)
+            if (this.MdTable.sortOrder === 'desc') {
+              return a[sortBy].localeCompare(b[sortBy])
+            }
+
+            return b[sortBy].localeCompare(a[sortBy])
+          })
         }
       }
     },
