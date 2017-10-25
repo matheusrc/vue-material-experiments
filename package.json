@@ -23,13 +23,8 @@
   "unpkg": "dist/vue-material.js",
   "scripts": {
     "dev": "babel-node build/local",
-<<<<<<< HEAD
-    "build": "rm -rf dist; babel-node build/lib",
-    "build-analyze": "rm -rf dist; babel-node build/lib --analyze",
-=======
     "build": "babel-node build/lib",
     "docs": "babel-node build/docs",
->>>>>>> origin/master
     "lint": "eslint --ext .js,.vue docs src build test",
     "test": "jest",
     "coverage": "yarn test --coverage",
