@@ -17,18 +17,6 @@ function classify (str) {
   return str.replace(/(?:^|[-_/])(\w)/g, toUpperCase)
 }
 
-function getRandomInt (min, max) {
-  const minNotAlowed = 8080
-  const maxNotAlowed = 8090
-  const generated = Math.floor(Math.random() * (max - min + 1)) + min
-
-  if (generated >= minNotAlowed && generated <= maxNotAlowed) {
-    return getRandomInt(min, max)
-  }
-
-  return generated
-}
-
 const moduleName = classify(pack.name)
 
 export default entry => {
