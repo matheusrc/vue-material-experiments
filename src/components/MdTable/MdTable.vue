@@ -2,6 +2,10 @@
   <md-tag-switcher :md-tag="contentTag" class="md-table">
     <slot name="md-table-toolbar" />
 
+    <md-table-alternate-header v-if="$scopedSlots['md-table-alternate-header'] && selectedCount">
+      <slot name="md-table-alternate-header" :count="selectedCount" />
+    </md-table-alternate-header>
+
     <div class="md-table-fixed-header" :class="headerClasses" :style="headerStyles" v-if="mdFixedHeader">
       <table>
         <md-table-thead />
@@ -47,6 +51,7 @@
   import MdUuid from 'core/utils/MdUuid'
   import MdPropValidator from 'core/utils/MdPropValidator'
   import MdTableThead from './MdTableThead'
+  import MdTableAlternateHeader from './MdTableAlternateHeader'
   import MdTableRow from './MdTableRow'
   import MdTableRowGhost from './MdTableRowGhost'
   import MdTableCellSelection from './MdTableCellSelection'
@@ -55,6 +60,7 @@
     name: 'MdTable',
     components: {
       MdTagSwitcher,
+      MdTableAlternateHeader,
       MdTableThead,
       MdTableRow,
       MdTableRowGhost,
@@ -118,6 +124,9 @@
       },
       headerCount () {
         return Object.keys(this.MdTable.items).length
+      },
+      selectedCount () {
+        return Object.keys(this.MdTable.selectedItems).length
       },
       headerStyles () {
         if (this.mdFixedHeader) {

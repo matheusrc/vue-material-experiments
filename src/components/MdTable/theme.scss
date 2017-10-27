@@ -1,7 +1,13 @@
 .md-table {
   @include md-theme-component() {
-    .md-table-content {
+    .md-table-content,
+    .md-table-alternate-header {
       @include md-theme-property(background-color, background);
+    }
+
+    .md-table-alternate-header .md-table-toolbar {
+      @include md-theme-property(color, text-primary, background);
+      @include md-theme-property(background-color, accent, null, .2);
     }
 
     .md-table-row {
@@ -14,7 +20,7 @@
         @if md-get-theme-mode() == light {
           @include md-theme-property-by-hue(background-color, grey, 100, row, background);
         } @else {
-          @include md-theme-property-by-hue(background-color, grey, 900, row, background);
+          @include md-theme-property-by-hue(background-color, grey, 700, row, background);
         }
 
         &.md-primary {
