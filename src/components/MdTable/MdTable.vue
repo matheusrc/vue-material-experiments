@@ -2,9 +2,11 @@
   <md-tag-switcher :md-tag="contentTag" class="md-table">
     <slot name="md-table-toolbar" />
 
-    <md-table-alternate-header v-if="$scopedSlots['md-table-alternate-header'] && selectedCount">
-      <slot name="md-table-alternate-header" :count="selectedCount" />
-    </md-table-alternate-header>
+    <keep-alive>
+      <md-table-alternate-header v-if="$scopedSlots['md-table-alternate-header'] && selectedCount">
+        <slot name="md-table-alternate-header" :count="selectedCount" />
+      </md-table-alternate-header>
+    </keep-alive>
 
     <div class="md-table-fixed-header" :class="headerClasses" :style="headerStyles" v-if="mdFixedHeader">
       <table>

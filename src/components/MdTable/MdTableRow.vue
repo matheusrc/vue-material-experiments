@@ -83,12 +83,17 @@
           }
         }
       },
-      selectRowIfSingle () {
-        this.MdTable.singleSelection = this.mdId
-        this.$emit('md-selected', this.MdTable.getModelItem(this.mdIndex))
-      },
       toggleSelection () {
         this.isSelected = !this.isSelected
+      },
+      selectRowIfSingle () {
+        if (this.MdTable.singleSelection === this.mdId) {
+          this.MdTable.singleSelection = null
+          this.$emit('md-selected', null)
+        } else {
+          this.MdTable.singleSelection = this.mdId
+          this.$emit('md-selected', this.MdTable.getModelItem(this.mdIndex))
+        }
       },
       selectRowIfMultiple () {
         if (this.mdAutoSelect) {
