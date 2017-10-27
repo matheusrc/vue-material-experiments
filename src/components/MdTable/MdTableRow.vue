@@ -78,7 +78,7 @@
         if (this.MdTable.hasValue && !this.mdDisabled) {
           if (this.hasMultipleSelection) {
             this.selectRowIfMultiple()
-          } else {
+          } else if (this.hasSingleSelection) {
             this.selectRowIfSingle()
           }
         }
