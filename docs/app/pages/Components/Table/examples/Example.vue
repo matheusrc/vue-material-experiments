@@ -13,34 +13,6 @@
         <md-table-cell md-label="Job Title">{{ item.title }}</md-table-cell>
       </md-table-row>
     </md-table>
-
-    <md-table v-model="people" md-card>
-      <md-table-toolbar>
-        <h1 class="md-title">Primary color</h1>
-      </md-table-toolbar>
-
-      <md-table-row class="md-primary" slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-        <md-table-cell md-label="ID" md-numeric>{{ item.id }}</md-table-cell>
-        <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="Email">{{ item.email }}</md-table-cell>
-        <md-table-cell md-label="Gender">{{ item.gender }}</md-table-cell>
-        <md-table-cell md-label="Job Title">{{ item.title }}</md-table-cell>
-      </md-table-row>
-    </md-table>
-
-    <md-table v-model="people" md-card>
-      <md-table-toolbar>
-        <h1 class="md-title">Accent color</h1>
-      </md-table-toolbar>
-
-      <md-table-row class="md-accent" slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-        <md-table-cell md-label="ID" md-numeric>{{ item.id }}</md-table-cell>
-        <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="Email">{{ item.email }}</md-table-cell>
-        <md-table-cell md-label="Gender">{{ item.gender }}</md-table-cell>
-        <md-table-cell md-label="Job Title">{{ item.title }}</md-table-cell>
-      </md-table-row>
-    </md-table>
   </div>
 </template>
 
