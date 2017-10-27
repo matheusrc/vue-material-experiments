@@ -36,7 +36,7 @@
   }
 
   export default {
-    name: 'Example',
+    name: 'TableSort',
     data: () => ({
       search: null,
       searched: [],

@@ -40,19 +40,23 @@
         return this.mdSelectable === 'single'
       },
       rowClasses () {
-        return {
-          'md-has-selection': this.mdAutoSelect || this.hasSingleSelection,
-          'md-selected': this.isSelected,
-          'md-selected-single': this.isSingleSelected
+        if (this.MdTable.hasValue) {
+          return {
+            'md-has-selection': this.mdAutoSelect || this.hasSingleSelection,
+            'md-selected': this.isSelected,
+            'md-selected-single': this.isSingleSelected
+          }
         }
       }
     },
     methods: {
       onClick () {
-        if (this.hasMultipleSelection) {
-          this.selectRowIfMultiple()
-        } else {
-          this.selectRowIfSingle()
+        if (this.MdTable.hasValue) {
+          if (this.hasMultipleSelection) {
+            this.selectRowIfMultiple()
+          } else {
+            this.selectRowIfSingle()
+          }
         }
       },
       selectRowIfSingle () {

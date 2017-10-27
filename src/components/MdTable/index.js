@@ -3,6 +3,7 @@ import MdTable from './MdTableContainer'
 import MdTableToolbar from './MdTableToolbar'
 import MdTableEmptyState from './MdTableEmptyState'
 import MdTableRow from './MdTableRow'
+import MdTableHead from './MdTableHead'
 import MdTableCell from './MdTableCell'
 
 export default Vue => {
@@ -11,5 +12,6 @@ export default Vue => {
   Vue.component(MdTableToolbar.name, MdTableToolbar)
   Vue.component(MdTableEmptyState.name, MdTableEmptyState)
   Vue.component(MdTableRow.name, MdTableRow)
+  Vue.component(MdTableHead.name, MdTableHead)
   Vue.component(MdTableCell.name, MdTableCell)
 }

@@ -2,17 +2,21 @@
   <md-tag-switcher :md-tag="contentTag" class="md-table">
     <slot name="md-table-toolbar" />
 
-    <div class="md-table-fixed-header" :class="headerClasses" :style="headerStyles">
+    <div class="md-table-fixed-header" :class="headerClasses" :style="headerStyles" v-if="mdFixedHeader">
       <table>
-        <md-table-thead v-if="mdFixedHeader" />
+        <md-table-thead />
       </table>
     </div>
 
     <md-content class="md-table-content md-scrollbar" :style="contentStyles" @scroll="setScroll">
       <table>
-        <md-table-thead :class="headerClasses" v-if="!mdFixedHeader" />
+        <md-table-thead :class="headerClasses" v-if="!mdFixedHeader && $scopedSlots['md-table-row']" />
 
-        <tbody v-if="value.length">
+        <tbody v-if="!$scopedSlots['md-table-row']">
+          <slot />
+        </tbody>
+
+        <tbody v-else-if="value.length">
           <md-table-row-ghost
             v-for="(item, index) in value"
             :key="getRowId(item.id)"
@@ -31,6 +35,8 @@
         </tbody>
       </table>
     </md-content>
+
+    <slot v-if="value" />
   </md-tag-switcher>
 </template>
 
@@ -113,8 +119,11 @@
           return `padding-right: ${this.fixedHeaderPadding}px`
         }
       },
+      hasValue () {
+        return this.value && this.value.length !== 0
+      },
       headerClasses () {
-        if ((this.mdFixedHeader && this.hasContentScroll) || this.value.length === 0) {
+        if ((this.mdFixedHeader && this.hasContentScroll) || !this.hasValue) {
           return 'md-table-fixed-header-active'
         }
       },
@@ -129,6 +138,7 @@
 
       MdTable.emitEvent = this.emitEvent
       MdTable.sortTable = this.sortTable
+      MdTable.hasValue = this.hasValue
       MdTable.getModelItem = this.getModelItem
 
       return { MdTable }
