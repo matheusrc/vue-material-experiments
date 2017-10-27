@@ -5,12 +5,31 @@
     }
 
     .md-table-row {
-      td {
-        @include md-theme-property(border-top-color, divider, background);
-      }
-
       &:hover:not(.md-header-row) .md-table-cell {
         @include md-theme-property(background-color, highlight, background, .08);
+      }
+
+      &.md-selected,
+      &.md-selected-single {
+        @if md-get-theme-mode() == light {
+          @include md-theme-property-by-hue(background-color, grey, 100, row, background);
+        } @else {
+          @include md-theme-property-by-hue(background-color, grey, 900, row, background);
+        }
+
+        &.md-primary {
+          @include md-theme-property(background-color, primary, background);
+          @include md-theme-property(color, text-primary, primary);
+        }
+
+        &.md-accent {
+          @include md-theme-property(background-color, accent, background);
+          @include md-theme-property(color, text-primary, accent);
+        }
+      }
+
+      td {
+        @include md-theme-property(border-top-color, divider, background);
       }
     }
 

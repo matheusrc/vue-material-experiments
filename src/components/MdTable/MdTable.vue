@@ -13,7 +13,11 @@
         <md-table-thead :class="headerClasses" v-if="!mdFixedHeader" />
 
         <tbody v-if="value.length">
-          <md-table-row-ghost v-for="(item, index) in value" :key="index" :md-index="index">
+          <md-table-row-ghost
+            v-for="(item, index) in value"
+            :key="getRowId(item.id)"
+            :md-id="getRowId(item.id)"
+            :md-index="index">
             <slot name="md-table-row" :item="item" />
           </md-table-row-ghost>
         </tbody>
@@ -34,6 +38,7 @@
   import raf from 'raf'
 
   import MdTagSwitcher from 'components/MdTagSwitcher/MdTagSwitcher'
+  import MdUuid from 'core/utils/MdUuid'
   import MdPropValidator from 'core/utils/MdPropValidator'
   import MdTableThead from './MdTableThead'
   import MdTableRow from './MdTableRow'
@@ -86,6 +91,7 @@
         sort: null,
         sortOrder: null,
         selectable: [],
+        singleSelection: null,
         fixedHeader: null,
         contentPadding: null,
         contentEl: null
@@ -123,6 +129,7 @@
 
       MdTable.emitEvent = this.emitEvent
       MdTable.sortTable = this.sortTable
+      MdTable.getModelItem = this.getModelItem
 
       return { MdTable }
     },
@@ -150,6 +157,13 @@
       emitEvent (eventName, value) {
         this.$emit(eventName, value)
       },
+      getRowId (id) {
+        if (id) {
+          return id
+        }
+
+        return 'md-row-' + new MdUuid()
+      },
       setScroll ($event) {
         raf(() => {
           this.hasContentScroll = $event.target.scrollTop > 0
@@ -168,6 +182,9 @@
         const tableEl = contentEl.childNodes[0]
 
         this.fixedHeaderPadding = contentEl.offsetWidth - tableEl.offsetWidth
+      },
+      getModelItem (index) {
+        return this.value[index]
       },
       sortTable () {
         if (Array.isArray(this.value)) {

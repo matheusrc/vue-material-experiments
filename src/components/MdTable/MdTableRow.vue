@@ -1,12 +1,13 @@
 <template>
-  <tr class="md-table-row" :class="rowClasses" @click="autoSelectRow">
-    <md-table-cell-selection v-model="isSelected" :md-selectable="mdSelectable" :md-row-id="uniqueId" />
+  <tr class="md-table-row" :class="rowClasses" @click="onClick">
+    <md-table-cell-selection v-model="isSelected" :md-selectable="mdSelectable === 'multiple'" :md-row-id="mdIndex" />
     <slot />
   </tr>
 </template>
 
 <script>
   import MdUuid from 'core/utils/MdUuid'
+  import MdPropValidator from 'core/utils/MdPropValidator'
   import MdTableCellSelection from './MdTableCellSelection'
 
   export default {
@@ -16,25 +17,49 @@
     },
     props: {
       mdIndex: [Number, String],
-      mdSelectable: Boolean,
+      mdId: [Number, String],
+      mdSelectable: {
+        type: [String],
+        ...MdPropValidator('md-selectable', ['multiple', 'single'])
+      },
       mdAutoSelect: Boolean
     },
     inject: ['MdTable'],
     data: () => ({
       index: null,
-      uniqueId: 'md-row-' + MdUuid(),
       isSelected: false
     }),
     computed: {
+      isSingleSelected () {
+        return this.MdTable.singleSelection === this.mdId
+      },
+      hasMultipleSelection () {
+        return this.mdSelectable === 'multiple'
+      },
+      hasSingleSelection () {
+        return this.mdSelectable === 'single'
+      },
       rowClasses () {
         return {
-          'md-autoselect': this.mdAutoSelect,
-          'md-selected': this.isSelected
+          'md-has-selection': this.mdAutoSelect || this.hasSingleSelection,
+          'md-selected': this.isSelected,
+          'md-selected-single': this.isSingleSelected
         }
       }
     },
     methods: {
-      autoSelectRow () {
+      onClick () {
+        if (this.hasMultipleSelection) {
+          this.selectRowIfMultiple()
+        } else {
+          this.selectRowIfSingle()
+        }
+      },
+      selectRowIfSingle () {
+        this.MdTable.singleSelection = this.mdId
+        this.$emit('md-selected', this.MdTable.getModelItem(this.mdIndex))
+      },
+      selectRowIfMultiple () {
         if (this.mdAutoSelect) {
           this.isSelected = !this.isSelected
         }
@@ -54,9 +79,19 @@
 </script>
 
 <style lang="scss">
+  @import "~components/MdAnimation/variables";
+
   .md-table-row {
-    &.md-autoselect {
+    transition: .3s $md-transition-default-timing;
+    transition-property: background-color, font-weight;
+    will-change: background-color, font-weight;
+
+    &.md-has-selection {
       cursor: pointer;
+    }
+
+    &.md-selected-single {
+      font-weight: 500;
     }
 
     tbody & td {
@@ -64,4 +99,3 @@
     }
   }
 </style>
-
