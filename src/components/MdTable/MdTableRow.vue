@@ -1,12 +1,16 @@
 <template>
   <tr class="md-table-row" :class="rowClasses" @click="onClick">
-    <md-table-cell-selection v-model="isSelected" :md-selectable="mdSelectable === 'multiple'" :md-row-id="mdIndex" />
+    <md-table-cell-selection
+      v-model="isSelected"
+      :md-disabled="mdDisabled"
+      :md-selectable="mdSelectable === 'multiple'"
+      :md-row-id="mdIndex"
+      v-if="selectableCount" />
     <slot />
   </tr>
 </template>
 
 <script>
-  import MdUuid from 'core/utils/MdUuid'
   import MdPropValidator from 'core/utils/MdPropValidator'
   import MdTableCellSelection from './MdTableCellSelection'
 
@@ -22,6 +26,7 @@
         type: [String],
         ...MdPropValidator('md-selectable', ['multiple', 'single'])
       },
+      mdDisabled: Boolean,
       mdAutoSelect: Boolean
     },
     inject: ['MdTable'],
@@ -30,28 +35,47 @@
       isSelected: false
     }),
     computed: {
+      selectableCount () {
+        return Object.keys(this.MdTable.selectable).length
+      },
       isSingleSelected () {
         return this.MdTable.singleSelection === this.mdId
       },
       hasMultipleSelection () {
-        return this.mdSelectable === 'multiple'
+        return this.MdTable.hasValue && this.mdSelectable === 'multiple'
       },
       hasSingleSelection () {
-        return this.mdSelectable === 'single'
+        return this.MdTable.hasValue && this.mdSelectable === 'single'
       },
       rowClasses () {
         if (this.MdTable.hasValue) {
           return {
-            'md-has-selection': this.mdAutoSelect || this.hasSingleSelection,
+            'md-has-selection': !this.mdDisabled && (this.mdAutoSelect || this.hasSingleSelection),
             'md-selected': this.isSelected,
             'md-selected-single': this.isSingleSelected
           }
         }
       }
     },
+    watch: {
+      mdDisabled () {
+        if (this.mdDisabled) {
+          this.removeSelectableItem()
+        } else {
+          this.addSelectableItem()
+        }
+      },
+      mdId (newId, oldId) {
+        this.removeSelectableItem(oldId)
+        this.addSelectableItem(newId)
+      },
+      isSelected () {
+        this.MdTable.manageItemSelection(this.mdIndex)
+      }
+    },
     methods: {
       onClick () {
-        if (this.MdTable.hasValue) {
+        if (this.MdTable.hasValue && !this.mdDisabled) {
           if (this.hasMultipleSelection) {
             this.selectRowIfMultiple()
           } else {
@@ -63,21 +87,32 @@
         this.MdTable.singleSelection = this.mdId
         this.$emit('md-selected', this.MdTable.getModelItem(this.mdIndex))
       },
+      toggleSelection () {
+        this.isSelected = !this.isSelected
+      },
       selectRowIfMultiple () {
         if (this.mdAutoSelect) {
-          this.isSelected = !this.isSelected
+          this.toggleSelection()
+        }
+      },
+      addSelectableItem (id) {
+        if (this.hasMultipleSelection && !this.mdDisabled) {
+          this.$set(this.MdTable.selectable, id || this.mdId, isSelected => {
+            this.isSelected = isSelected
+          })
+        }
+      },
+      removeSelectableItem (id) {
+        if (this.hasMultipleSelection) {
+          this.$delete(this.MdTable.selectable, id || this.mdId)
         }
       }
     },
-    async mounted () {
-      await this.$nextTick()
-
-      this.$set(this.MdTable.selectable, this.mdIndex, this.mdSelectable)
+    created () {
+      this.addSelectableItem()
     },
     beforeDestroy () {
-      if (this.mdItem) {
-        this.$set(this.MdTable.selectable, this.mdIndex)
-      }
+      this.removeSelectableItem()
     }
   }
 </script>

@@ -19,8 +19,8 @@
         <tbody v-else-if="value.length">
           <md-table-row-ghost
             v-for="(item, index) in value"
-            :key="getRowId(item.id)"
-            :md-id="getRowId(item.id)"
+            :key="getRowId(item[mdModelId])"
+            :md-id="getRowId(item[mdModelId])"
             :md-index="index">
             <slot name="md-table-row" :item="item" />
           </md-table-row-ghost>
@@ -62,6 +62,10 @@
     },
     props: {
       value: [Array, Object],
+      mdModelId: {
+        type: String,
+        default: 'id'
+      },
       mdCard: Boolean,
       mdFixedHeader: Boolean,
       mdHeight: {
@@ -96,8 +100,9 @@
         items: {},
         sort: null,
         sortOrder: null,
-        selectable: [],
         singleSelection: null,
+        selectedItems: {},
+        selectable: {},
         fixedHeader: null,
         contentPadding: null,
         contentEl: null
@@ -139,6 +144,8 @@
       MdTable.emitEvent = this.emitEvent
       MdTable.sortTable = this.sortTable
       MdTable.hasValue = this.hasValue
+      MdTable.manageItemSelection = this.manageItemSelection
+      MdTable.getModel = this.getModel
       MdTable.getModelItem = this.getModelItem
 
       return { MdTable }
@@ -172,7 +179,7 @@
           return id
         }
 
-        return 'md-row-' + new MdUuid()
+        return 'md-row-' + MdUuid()
       },
       setScroll ($event) {
         raf(() => {
@@ -193,8 +200,23 @@
 
         this.fixedHeaderPadding = contentEl.offsetWidth - tableEl.offsetWidth
       },
+      getModel () {
+        return this.value
+      },
       getModelItem (index) {
         return this.value[index]
+      },
+      manageItemSelection (index) {
+        if (this.MdTable.selectedItems[index]) {
+          this.$delete(this.MdTable.selectedItems, index)
+        } else {
+          this.$set(this.MdTable.selectedItems, index, this.value[index])
+        }
+
+        this.sendSelectionEvent()
+      },
+      sendSelectionEvent () {
+        this.$emit('md-selected', Object.values(this.MdTable.selectedItems))
       },
       sortTable () {
         if (Array.isArray(this.value)) {

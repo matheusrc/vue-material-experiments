@@ -10,27 +10,27 @@
       </md-table-row>
 
       <md-table-row>
-        <md-table-cell md-label="ID" md-numeric>1</md-table-cell>
-        <md-table-cell md-label="Name">Shawna Dubbin</md-table-cell>
-        <md-table-cell md-label="Email">sdubbin0@geocities.com</md-table-cell>
-        <md-table-cell md-label="Gender">Male</md-table-cell>
-        <md-table-cell md-label="Job Title">Assistant Media Planner</md-table-cell>
+        <md-table-cell md-numeric>1</md-table-cell>
+        <md-table-cell>Shawna Dubbin</md-table-cell>
+        <md-table-cell>sdubbin0@geocities.com</md-table-cell>
+        <md-table-cell>Male</md-table-cell>
+        <md-table-cell>Assistant Media Planner</md-table-cell>
       </md-table-row>
 
       <md-table-row>
-        <md-table-cell md-label="ID" md-numeric>2</md-table-cell>
-        <md-table-cell md-label="Name">Odette Demageard</md-table-cell>
-        <md-table-cell md-label="Email">odemageard1@spotify.com</md-table-cell>
-        <md-table-cell md-label="Gender">Female</md-table-cell>
-        <md-table-cell md-label="Job Title">Account Coordinator</md-table-cell>
+        <md-table-cell md-numeric>2</md-table-cell>
+        <md-table-cell>Odette Demageard</md-table-cell>
+        <md-table-cell>odemageard1@spotify.com</md-table-cell>
+        <md-table-cell>Female</md-table-cell>
+        <md-table-cell>Account Coordinator</md-table-cell>
       </md-table-row>
 
       <md-table-row>
-        <md-table-cell md-label="ID" md-numeric>3</md-table-cell>
-        <md-table-cell md-label="Name">Vera Taleworth</md-table-cell>
-        <md-table-cell md-label="Email">vtaleworth2@google.ca</md-table-cell>
-        <md-table-cell md-label="Gender">Male</md-table-cell>
-        <md-table-cell md-label="Job Title">Community Outreach Specialist</md-table-cell>
+        <md-table-cell md-numeric>3</md-table-cell>
+        <md-table-cell>Vera Taleworth</md-table-cell>
+        <md-table-cell>vtaleworth2@google.ca</md-table-cell>
+        <md-table-cell>Male</md-table-cell>
+        <md-table-cell>Community Outreach Specialist</md-table-cell>
       </md-table-row>
     </md-table>
   </div>
