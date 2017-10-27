@@ -31,7 +31,7 @@
   }
 
   .md-table-alternate-header-enter-active {
-    transition: .3s $md-transition-enter-timing;
+    transition: .3s $md-transition-default-timing;
   }
 
   .md-table-alternate-header-leave-active {
