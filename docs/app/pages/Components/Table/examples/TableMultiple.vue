@@ -2,13 +2,11 @@
   <div>
     <md-table v-model="people" md-card @md-selected="onSelect">
       <md-table-toolbar>
-        <h1 class="md-title">With auto select</h1>
+        <h1 class="md-title">With auto select and alternate headers</h1>
       </md-table-toolbar>
 
       <md-table-toolbar slot="md-table-alternate-header" slot-scope="{ count }">
-        <div class="md-toolbar-section-start">
-          {{ getAlternateLabel(count) }}
-        </div>
+        <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
 
         <div class="md-toolbar-section-end">
           <md-button class="md-icon-button">
