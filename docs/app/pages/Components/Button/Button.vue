@@ -89,7 +89,7 @@ export default {
             {
               name: 'type',
               type: 'String',
-              description: 'Applies a type to button - It doesn't affects links.',
+              description: 'Applies a type to button - It doesn\'t affects links.',
               defaults: 'button'
             },
             {
